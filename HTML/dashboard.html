@@ -14,19 +14,20 @@
 <body class="dashboard">
     <div>
         <md-nav-bar>
-            <md-nav-item md-nav-click="logout()">Logout</md-nav-item>
+            <md-nav-item md-nav-click="logout()"><font color="white">Logout</font></md-nav-item>
         </md-nav-bar>
     </div>
-    <h1 style="color:white;text-align: center">Dashboard</h1>
-    <h5 style="text-align:right">UserID: {{userInfo.userID}}</h5>
-    <div class="boxWithShadow" style="background-color:white;width:95%;margin:auto;border-radius:25px">
+    <h1 style="color:#FFC904;text-align:center">Dashboard</h1>
+    <h5 style="text-align:center"><font color="white">UserID:</font> {{userInfo.userID}}</h5>
+    <div class="boxWithShadow" style="background-color:white;width:70%;margin:auto;border-radius:25px">
     <md-input-container>
-        <md-button ng-if="userData.isAdmin == 1 || userData.isSuperAdmin == 1" ng-click="createEvent()">Create Event</md-button>
+        <md-button ng-click="createEvent()">Create Event</md-button>
     </md-input-container>
     <md-input-container>
-        <md-button ng-click="createRSO()">Create RSO</md-button>
+        <md-button ng-click="createRSO()"><font color="green">Create your RSO</font></md-button>
     </md-input-container>
     <md-input-container>
+        <label>Select</label>
         <md-select ng-model="searchCat">
             <md-option value="0">Public Event</md-option>
             <md-option value="1">Private Event</md-option>
@@ -35,7 +36,7 @@
         </md-select>
     </md-input-container>
     <md-input-container>
-        <label>Search:</label>
+        <label>Search</label>
         <input type="text" ng-model="searchParam">
     </md-input-container>
     <md-input-container>
@@ -45,9 +46,9 @@
     <br>
     <hr>
     <br>
-     <div class="boxWithShadow" style="background-color:white;width:95%;margin:auto;border-radius:25px">
+     <div class="boxWithShadow" style="background-color:white;width:30%;margin:auto;border-radius:25px">
         <div id="default" ng-show="!createEventToggle && !createRSOToggle && !showEventSearchResults && !showRSOSearchResults && !viewEventToggle">
-            Welcome! Please select an option above.
+          <font color="black">Welcome! Please select an option above.</font>
         </div>
         <div id="eventSearchResults"  ng-show="!createEventToggle && !createRSOToggle && showEventSearchResults">
         <table>
@@ -136,8 +137,10 @@
         </form>
     </div>
     <div name="createRSO" ng-show="createRSOToggle">
-        <h2>Create an RSO</h2>
+        <br>
+        <h2 style="color:black;text-align:center">Create RSO</h2>
         <form name="form.createRSO">
+          <h6 style="color:red;text-align:center">Your RSO will be inactive until at least 4 <br> more members have joined.</h6>
             <md-input-container>
                 <label>Name:</label>
                 <input type="text" ng-model="rso.name">
@@ -146,7 +149,7 @@
                 <label>UniversityID</label>
                 <input type="text" ng-model="rso.uni">
             </md-input-container>
-            <h6>You're RSO will be inactive until at least 4 more members have joined.</h6>
+            <br>
             <md-button ng-click="createRSO()">Create</md-button>
         </form>
     </div>
@@ -156,6 +159,6 @@
         <!-- show event comments here-->
     </div>
 
-    </div> 
+    </div>
 </body>
 </html>
