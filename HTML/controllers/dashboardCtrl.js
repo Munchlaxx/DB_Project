@@ -130,6 +130,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         function(data){
             alert("Failed to Enroll");
         });
+    }
     $scope.createEvent = function(){
         //gather info and send to db
         $scope.createEventToggle = true;
@@ -139,7 +140,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $http.post('/createEvent', $scope.json);
         }
     }
-}
+
     $scope.createRSO = function(){
         //form with 5 users
         $scope.createRSOToggle = true;
