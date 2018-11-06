@@ -1,4 +1,5 @@
 angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($scope, $mdDialog, $http) {
+    //view toggles
     $scope.createEventToggle = false;
     $scope.createRSOToggle = false;
     $scope.showEventSearchResults = false;
@@ -151,6 +152,12 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $http.post('/createRSO', $scope.json);
         }
     }
+
+    $scope.cancel = function(){
+        $scope.createEventToggle = false;
+        $scope.createRSOToggle = false;
+    }
+
     $scope.goto = function(key){
         if(key == 'search'){
             window.location.href="searchEngine.html"
