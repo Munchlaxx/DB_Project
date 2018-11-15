@@ -68,24 +68,31 @@ app.post('/addUser', function(req, res){
 		} 
 				
 		else {
-			// Add user to database
 			var password = calcMD5(req.body.password);
-			const sqlAddUser = "INSERT INTO STD_USER (pass, email, universityID, securityAns) VALUES ('";
-			tempCont.query(sqlAddUser + password + "', '" + req.body.email + "', " + req.body.universityID + ", '" + req.body.securityAns + "')", function(err, result) {
+			if (checkInput(password,"password") && checkInput(req.body.email,"email") && checkInput(req.body.universityID,"username") && checkInput(req.body.securityAns,"answer")){
+				// Add user to database
+				const sqlAddUser = "INSERT INTO STD_USER (pass, email, universityID, securityAns) VALUES ('";
+				tempCont.query(sqlAddUser + password + "', '" + req.body.email + "', " + req.body.universityID + ", '" + req.body.securityAns + "')", function(err, result) {
 
-			// Check if query works
-			if(err) {
-				res.status(400).send('Query Fail');
+				// Check if query works
+				if(err) {
+					res.status(400).send('Query Fail');
+				}
+				else {
+					res.status(200).send('Query Success');	
+				}
+									
+				// End connection
+				tempCont.release();
+				});
 			}
-			else {
-				res.status(200).send('Query Success');	
+
+			else{
+				res.status(400).send('Invalid Input');
 			}
-								
-			// End connection
-			tempCont.release();
-			});
 								
 		}
+		
     });
 });
 
@@ -101,8 +108,9 @@ app.post('/userLogin', function(req,res){
 		
 		else { 			
 			var password = calcMD5(req.body.password);
-			const sql = 'SELECT userID, email, universityID FROM STD_USER WHERE email = ? AND pass = ?';
-			tempCont.query(sql, [req.body.email, password], function(err, result) {
+			if (checkInput(req.body.userID, "username") && checkInput(password, "password")){
+				const sql = 'SELECT userID, email, universityID FROM STD_USER WHERE email = ? AND pass = ?';
+				tempCont.query(sql, [req.body.email, password], function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -122,7 +130,8 @@ app.post('/userLogin', function(req,res){
 				// End connection
 				tempCont.release();
 			
-			});
+				});
+			}
 				
 		}
 
@@ -313,13 +322,9 @@ var checkInput = function(input, type, callback) {
 			returnVal = re.test(input);
 			break;
 
-        // needs work
 		case "answer":
-			var re = /^[a-z|\d]{1,30}$/i;
-			var ans = input.replace(/\s/g,'');
-			ans.toLowerase();
-			console.log("The answer is:" + ans); 
-			returnVal = re.test(ans);
+			var re = /^[a-z|\d\s]{1,50}$/i;
+			returnVal = re.test(input);
 			break;
 			
 		case "name":
