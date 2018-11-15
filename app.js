@@ -142,6 +142,7 @@ app.post('/userLogin', function(req,res){
 
 
 // Search for events.
+// Flag is undefined
 app.post('/searchEvents', function(req,res){
     // Create connection to database
 	db.getConnection(function(err, tempCont){
@@ -151,42 +152,48 @@ app.post('/searchEvents', function(req,res){
 			res.status(400).send('Connection fail');
 				
 		} else { 
-			
-			
 			if(req.body.flag == 0){
-				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
-				tempCont.query(sqlSearchEvent,[req.body.name, req.body.cat], function(err, result) {
+				if(checkInput(req.body.name, "name") && checkInput(req.body.cat, "extra")){
+					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
+					tempCont.query(sqlSearchEvent,[req.body.name, req.body.cat], function(err, result) {
 					
-				// Check if query works
-				if (err) {
-					res.status(400).send('Query Fail');
-                } 
-                else {
-					res.status(200).send(result);		
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result);		
+					}
+				
+					});
 				}
-					
-				// End connection
-				tempCont.release();
-			
-				});
+
+				else{
+					res.status(400).send('Invalid Input');
+				}
 			}
 			else{
-				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ?';
-				tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
-					
-				// Check if query works
-				if (err) {
-					res.status(400).send('Query Fail');
-                } 
-                else {
-					res.status(200).send(result);		
+				if (checkInput(req.body.cat, "extra")){
+					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ?';
+					tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
+						
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result);		
+					}
+				
+					});
 				}
-					
-				// End connection
-				tempCont.release();
-			
-				});
+
+				else{
+					res.status(400).send('Invalid Input');
+				}
 			}
+
+			tempCont.release();
 				
 		}
 
@@ -195,6 +202,7 @@ app.post('/searchEvents', function(req,res){
 
 
 // Create Event.
+//Need to add check
 app.post('/createEvent', function(req,res){
 
     // Create connection to database
@@ -242,21 +250,27 @@ app.post('/createRSO', function(req,res){
 		} else { 
 			
 			
-			const sqlCreateEvent = 'INSERT INTO RSO (universityID, userID, name) VALUES(';
-			tempCont.query(sqlCreateEvent + req.body.universityID + "," + req.body.userID + ", '" + req.body.name + "')", function(err, result) {
-					
-				// Check if query works
-				if (err) {
-					res.status(400).send('Query Fail');
-                } 
-                else {
-					res.status(200).send(result);		
-				}
-					
-				// End connection
-				tempCont.release();
-			
-			});
+			if(checkInput(req.body.universityID, "extra") && checkInput(req.body.userID, "extra") && checkInput(req.body.name, "name")){
+				const sqlCreateEvent = 'INSERT INTO RSO (universityID, userID, name) VALUES(';
+				tempCont.query(sqlCreateEvent + req.body.universityID + "," + req.body.userID + ", '" + req.body.name + "')", function(err, result) {
+						
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result);		
+					}
+				
+				});
+			}
+
+			else{
+				res.status(400).send('Invalid Input');
+			}
+
+			// End connection
+			tempCont.release();
 				
 		}
 
@@ -264,6 +278,7 @@ app.post('/createRSO', function(req,res){
 });
 
 // Search for RSO.
+// Need to fix with a user
 app.post('/searchRSO', function(req,res){
 
     // Create connection to database
@@ -328,9 +343,15 @@ var checkInput = function(input, type, callback) {
 			break;
 			
 		case "name":
-			var re = /^[a-z]{1,20}$/i; // Format 20 characters
+			var re = /^[a-z|\d\s]{1,30}$/i; // Format 30 characters
 			returnVal = re.test(input);
 			break;
+
+		case "extra":
+			var re = /^[a-z|\d\s]{1,30}$/i; // Format 30 characters
+			returnVal = re.test(input);
+			break;
+		
 			
 		case "phone":
 			var re = /(1){0,1}\d{10}$/i; // Format 18004445555 | 4074445555
