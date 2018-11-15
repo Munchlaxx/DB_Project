@@ -156,8 +156,15 @@
     </div>
 
     <div id="viewEvent" ng-show="viewEventToggle">
-        <!-- show event data here-->
-        <!-- show event comments here-->
+        <md-card ng-repeat="e in eventInfo">
+            <md-card-title>{{e.name}}</md-card-title>
+            <md-card-contents>
+                {{e.description}}
+                <md-card-actions>
+                    <md-button ng-click="comment()">Comment</md-button>
+                </md-card-actions>
+            </md-card-contents>
+        </md-card>>
     </div>
 
     </div>
