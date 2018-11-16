@@ -25,6 +25,7 @@ var db = mysql.createPool({
 
 });
 
+
 // Body-parser initialization
 app.set('trust proxy', 1);
 app.use(bodyParser.json());
@@ -44,10 +45,6 @@ app.use(express.static(path.join(__dirname, 'HTML')));
 
 // 6 pages total
 // Pulling the login page
-app.get('/home',function(req,res){
-    res.sendFile(__dirname + '/html/dashboard.html');
-});
-
 app.get('/login',function(req,res){
     res.sendFile(__dirname + '/html/signin.html');
 });
@@ -64,7 +61,7 @@ app.post('/addUser', function(req, res){
 			
 		// Error if connection is not established
 		if(err) {
-			res.status(400).send('Connetion Fail');				
+			res.status(400).send('Connetion Fail');			
 		} 
 				
 		else {
@@ -142,7 +139,6 @@ app.post('/userLogin', function(req,res){
 
 
 // Search for events.
-// Flag is undefined
 app.post('/searchEvents', function(req,res){
     // Create connection to database
 	db.getConnection(function(err, tempCont){
@@ -152,48 +148,42 @@ app.post('/searchEvents', function(req,res){
 			res.status(400).send('Connection fail');
 				
 		} else { 
+			
+			
 			if(req.body.flag == 0){
-				if(checkInput(req.body.name, "name") && checkInput(req.body.cat, "extra")){
-					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
-					tempCont.query(sqlSearchEvent,[req.body.name, req.body.cat], function(err, result) {
+				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
+				tempCont.query(sqlSearchEvent,[req.body.name, req.body.cat], function(err, result) {
 					
-					// Check if query works
-					if (err) {
-						res.status(400).send('Query Fail');
-					} 
-					else {
-						res.status(200).send(result);		
-					}
-				
-					});
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
 				}
-
-				else{
-					res.status(400).send('Invalid Input');
-				}
+					
+				// End connection
+				tempCont.release();
+			
+				});
 			}
 			else{
-				if (checkInput(req.body.cat, "extra")){
-					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ?';
-					tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
-						
-					// Check if query works
-					if (err) {
-						res.status(400).send('Query Fail');
-					} 
-					else {
-						res.status(200).send(result);		
-					}
-				
-					});
+				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ?';
+				tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
 				}
-
-				else{
-					res.status(400).send('Invalid Input');
-				}
+					
+				// End connection
+				tempCont.release();
+			
+				});
 			}
-
-			tempCont.release();
 				
 		}
 
@@ -202,7 +192,6 @@ app.post('/searchEvents', function(req,res){
 
 
 // Create Event.
-//Need to add check
 app.post('/createEvent', function(req,res){
 
     // Create connection to database
@@ -250,27 +239,21 @@ app.post('/createRSO', function(req,res){
 		} else { 
 			
 			
-			if(checkInput(req.body.universityID, "extra") && checkInput(req.body.userID, "extra") && checkInput(req.body.name, "name")){
-				const sqlCreateEvent = 'INSERT INTO RSO (universityID, userID, name) VALUES(';
-				tempCont.query(sqlCreateEvent + req.body.universityID + "," + req.body.userID + ", '" + req.body.name + "')", function(err, result) {
-						
-					// Check if query works
-					if (err) {
-						res.status(400).send('Query Fail');
-					} 
-					else {
-						res.status(200).send(result);		
-					}
-				
-				});
-			}
-
-			else{
-				res.status(400).send('Invalid Input');
-			}
-
-			// End connection
-			tempCont.release();
+			const sqlCreateEvent = 'INSERT INTO RSO (universityID, userID, name) VALUES(';
+			tempCont.query(sqlCreateEvent + req.body.universityID + "," + req.body.userID + ", '" + req.body.name + "')", function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
 				
 		}
 
@@ -278,7 +261,6 @@ app.post('/createRSO', function(req,res){
 });
 
 // Search for RSO.
-// Need to fix with a user
 app.post('/searchRSO', function(req,res){
 
     // Create connection to database
@@ -313,6 +295,89 @@ app.post('/searchRSO', function(req,res){
 });
 
 
+//User login
+app.post('/createComment', function(req,res){
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');				
+		} 
+		
+		else { 			
+			if (checkInput(req.body.comment, "comment")){
+				const sql = 'INSERT INTO COMMENTS (userID, eventID, rating, commentText) VALUES(';
+				tempCont.query(sql + req.body.userID + "," + req.body.eventID + "," + req.body.rating + ",'" + req.body.commentText + "')", function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+				}
+				 
+                else {
+					if (result.length == 0){
+						res.status(400).send('No match')
+					}
+					else{
+						res.status(200).send(result);	
+					}
+							
+				}
+			
+				});
+			}
+
+			else{
+				res.status(400).send('Invalid Input');
+			}
+
+			// End connection
+			tempCont.release();
+				
+		}
+
+	});
+});
+
+
+// Get event comments.
+app.post('/getComment', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchRSO = 'SELECT * FROM COMMENTS WHERE eventID = ?';
+			tempCont.query(sqlSearchRSO,[req.body.commentText], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
+
+
+
 
 
 //Check for valid inputs to stop SQL injections.
@@ -343,15 +408,9 @@ var checkInput = function(input, type, callback) {
 			break;
 			
 		case "name":
-			var re = /^[a-z|\d\s]{1,30}$/i; // Format 30 characters
+			var re = /^[a-z]{1,20}$/i; // Format 20 characters
 			returnVal = re.test(input);
 			break;
-
-		case "extra":
-			var re = /^[a-z|\d\s]{1,30}$/i; // Format 30 characters
-			returnVal = re.test(input);
-			break;
-		
 			
 		case "phone":
 			var re = /(1){0,1}\d{10}$/i; // Format 18004445555 | 4074445555
@@ -361,6 +420,11 @@ var checkInput = function(input, type, callback) {
 
 		case "phonesearch":
 			var re = /\d{1,11}$/;
+			returnVal = re.test(input);
+			break;
+
+		case "comment":
+			var re = /^[a-z|\d\s.,]{1,256}$/i;
 			returnVal = re.test(input);
 			break;
 		
