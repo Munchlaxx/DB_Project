@@ -14,12 +14,21 @@
     <script src = "controllers/dashboardCtrl.js"></script>
 </head>
 <body class="loginPage">
-  <br>
-  <h1 style="color:#FFC904;text-align:left">College Events</h1>
+    <div class="header">
+      <br>
+      <img src="university.png" alt="logo" />
+      <h1><font color="#E95412">College Events</font></h1>
+      <br>
+    </div>
+<!--
+    <br>
+    <h1 style="color:white; text-align:center;">College Events</h1> -->
+
     <div layout="column" class="loginPage">
-        <md-content layout-padding style="background-color:black;padding:30px 0" >
-            <h2 ng-show="!signUpToggle" style="color:#FFC904;text-align: center">Please Sign In: </h1>
-            <h2 ng-show="signUpToggle" style="color:#FFC904;text-align: center">Sign Up: </h1>
+      <!-- <h1 style="color:#FFC904; text-align:center;">College Events</h1> -->
+        <md-content layout-padding style="background-color:gray;padding:35px" >
+            <h2 ng-show="!signUpToggle" style="color:white;text-align: center">Sign In </h1>
+            <h2 ng-show="signUpToggle" style="color:black;text-align: center">Sign Up </h2>
 
             <div class="boxWithShadow" style="background-color:white;width:30%;margin:auto;border-radius:25px">
                 <div ng-show="!signUpToggle">
@@ -78,7 +87,4 @@
     </div>
 
 </body>
-<footer class="footer">
-    <p><font color="white">This site is a work in progress. Please pardon the horror that you may witness! </font></p>
-</footer>
 </html>

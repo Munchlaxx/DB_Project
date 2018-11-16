@@ -32,10 +32,6 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.userData = {};
     $scope.userData.userID = '11223';
     $scope.userData.admin = true;
-    //view events
-    $scope.eventInfo = {};
-    $scope.eventInfo.comments = [];
-   
 
     $scope.rsoArrayPush = function(){
         $scope.foundingMembers.push($scope.addMember);
@@ -112,10 +108,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         }
     }
     $scope.viewEvent = function(event){
-        //access event page
-    }
-    $scope.comment = function(){
-        
+
     }
 
     $scope.joinRSO = function(rso){

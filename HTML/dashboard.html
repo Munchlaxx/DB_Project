@@ -12,11 +12,23 @@
     <script src = "controllers/dashboardCtrl.js"></script>
 </head>
 <body class="dashboard">
-    <div>
+    <!-- <div>
         <md-nav-bar>
             <md-nav-item md-nav-click="logout()"><font color="white">Logout</font></md-nav-item>
         </md-nav-bar>
+    </div> -->
+
+    <div class="header">
+      <br>
+
+      <img src="UCF3X2.png" alt="logo" />
+      <h1><font color="#FFC904">UNIVERSITY OF CENTRAL FLORIDA</font></h1>
+
+      <md-nav-bar>
+          <md-nav-item md-nav-click="logout()"><font color="white">Logout</font></md-nav-item>
+      </md-nav-bar>
     </div>
+
     <h1 style="color:#FFC904;text-align:center">Dashboard</h1>
     <h5 style="text-align:center"><font color="white">UserID:</font> {{userInfo.userID}}</h5>
     <div class="boxWithShadow" style="background-color:white;width:70%;margin:auto;border-radius:25px">
@@ -47,6 +59,7 @@
     <hr>
     <br>
      <div class="boxWithShadow" style="background-color:white;width:70%;margin:auto;border-radius:25px">
+       background-color: #B79A62;
         <div id="default" ng-show="!createEventToggle && !createRSOToggle && !showEventSearchResults && !showRSOSearchResults && !viewEventToggle">
           <font color="black">Welcome! Please select an option above.</font>
         </div>
@@ -156,15 +169,8 @@
     </div>
 
     <div id="viewEvent" ng-show="viewEventToggle">
-        <md-card ng-repeat="e in eventInfo">
-            <md-card-title>{{e.name}}</md-card-title>
-            <md-card-contents>
-                {{e.description}}
-                <md-card-actions>
-                    <md-button ng-click="comment()">Comment</md-button>
-                </md-card-actions>
-            </md-card-contents>
-        </md-card>>
+        <!-- show event data here-->
+        <!-- show event comments here-->
     </div>
 
     </div>
