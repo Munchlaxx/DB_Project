@@ -1,4 +1,23 @@
 angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($scope, $mdDialog, $http) {
+    $scope.DatPractice = [
+        {
+            name: 'Event #1',
+            description: 'Practice Data #1',
+            comments: ["Comment #1", "Long Comment for checking the length of code.", "Comment #3"]
+        },
+        {
+            name: 'Event #2',
+            description: 'Practice Data #2',
+            comments: ["BLAH BLAH BLAH", "AHHHHHHHHHHHHHHH", "UGGGGGGGGGGGHHHHHHHHHHHHH"]
+        },
+        {
+            name: 'Event #3',
+            description: 'Practice Data #3',
+            comments: ["AAAAAAAAAAAAAAAAAAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CCCCCCCCCCCCCCCCCCCC"]
+        },
+    ];
+
+
     //view toggles
     $scope.createEventToggle = false;
     $scope.createRSOToggle = false;
