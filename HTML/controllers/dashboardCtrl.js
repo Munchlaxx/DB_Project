@@ -16,7 +16,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             comments: ["AAAAAAAAAAAAAAAAAAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CCCCCCCCCCCCCCCCCCCC"]
         },
     ];
-
+    $scope.pulledEvent = {};
+    $scope.showComments = false;
 
     //view toggles
     $scope.createEventToggle = false;
@@ -127,7 +128,13 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         }
     }
     $scope.viewEvent = function(event){
-
+        $scope.pulledEvent = event;
+        var dataToSend = event.eventID;
+        $scope.json = angular.toJson(dataToSend);
+        $http.post('/getComment', $scope.json).then(function(data){
+            $scope.pulledComments = data;
+            $scope.showComments = true;
+        });
     }
 
     $scope.joinRSO = function(rso){

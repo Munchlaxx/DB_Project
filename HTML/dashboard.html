@@ -170,8 +170,15 @@
     </div>
 
     <div id="viewEvent" ng-show="viewEventToggle">
-        <!-- show event data here-->
-        <!-- show event comments here-->
+        <div id="info">
+           <h4>Name: {{pulledEvent.name}}</h4>
+           <h3>Description: {{pulledEvent.description}}</h3>
+        </div>
+           <div id="comments">
+           <table ng-show="showComments">
+               <tr ng-repeat="x in pulledComments">{{x}}</tr>
+           </table>
+        </div>
     </div>
 
     </div>
