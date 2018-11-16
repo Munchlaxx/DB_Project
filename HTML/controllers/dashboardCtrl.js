@@ -129,8 +129,11 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     }
     $scope.viewEvent = function(event){
         $scope.pulledEvent = event;
-        var dataToSend = event.eventID;
+        $scope.viewEventToggle = true;
+        var dataToSend = {};
+        dataToSend.eventID = event.eventID;
         $scope.json = angular.toJson(dataToSend);
+        console.log($scope.json);
         $http.post('/getComment', $scope.json).then(function(data){
             $scope.pulledComments = data;
             $scope.showComments = true;
