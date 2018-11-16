@@ -355,7 +355,7 @@ app.post('/getComment', function(req,res){
 			
 			
 			const sqlSearchRSO = 'SELECT * FROM COMMENTS WHERE eventID = ?';
-			tempCont.query(sqlSearchRSO,[req.body.commentText], function(err, result) {
+			tempCont.query(sqlSearchRSO,[req.body.eventID], function(err, result) {
 					
 				// Check if query works
 				if (err) {
