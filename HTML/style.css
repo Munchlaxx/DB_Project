@@ -55,3 +55,7 @@
   top: 0px;
   left: 5px;
 }
+
+.md-nav-bar {
+  float: right;
+}
