@@ -140,7 +140,8 @@ app.post('/userLogin', function(req,res){
 
 // Search for events.
 app.post('/searchEvents', function(req,res){
-    // Create connection to database
+	
+	// Create connection to database
 	db.getConnection(function(err, tempCont){
 			
 		// Error if connection is not established
@@ -362,7 +363,42 @@ app.post('/getComment', function(req,res){
 					res.status(400).send('Query Fail');
                 } 
                 else {
-					res.status(200).send(result);		
+					res.status(200).send(result);
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
+
+// Get event comments.
+app.post('/deleteComment', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchRSO = 'DELETE FROM COMMENTS WHERE keytmp = ?';
+			tempCont.query(sqlSearchRSO,[req.body.keytmp], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);
 				}
 					
 				// End connection
