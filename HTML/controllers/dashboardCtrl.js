@@ -18,6 +18,11 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     ];
     $scope.pulledEvent = {};
     $scope.showComments = false;
+    $scope.newComment = {};
+    $scope.newComment.userID = 13;
+    $scope.newComment.eventID = 1;
+    $scope.newComment.commentText = '';
+    $scope.newComment.rating = '';
 
     //view toggles
     $scope.createEventToggle = false;
@@ -135,11 +140,27 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         $scope.json = angular.toJson(dataToSend);
         console.log($scope.json);
         $http.post('/getComment', $scope.json).then(function(data){
-            $scope.pulledComments = data;
+            console.log(data);
+            $scope.pulledComments = angular.fromJson(data);
             $scope.showComments = true;
         });
     }
-
+    $scope.saveComment = function(){
+        $scope.json = angular.toJson($scope.newComment);
+        console.log($scope.json);
+        $http.post('/createComment', $scope.json).then(function(){
+            console.log("success")
+        });
+    }
+    $scope.deleteComment = function(comment){
+        var deleteComment = {};
+        deleteComment.keytmp = comment.keytmp;
+        $scope.json = angular.toJson(deleteComment);
+        console.log($scope.json);
+        $http.post('/deleteComment', $scope.json).then(function(){
+            console.log("success")
+        });
+    }
     $scope.joinRSO = function(rso){
         console.log(rso);
         $scope.dataToSend = {};

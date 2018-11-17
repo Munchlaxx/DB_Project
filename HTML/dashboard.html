@@ -175,9 +175,28 @@
            <h3>Description: {{pulledEvent.description}}</h3>
         </div>
            <div id="comments">
-           <table ng-show="showComments">
-               <tr ng-repeat="x in pulledComments">{{x}}</tr>
-           </table>
+               <form name="form.newComment">
+                   <md-input-container>
+                       <input ng-model="newComment.commentText">
+                   </md-input-container>
+                   <md-input-container>
+                       <input ng-model="newComment.rating">
+                   </md-input-container>
+                   <md-button ng-click="saveComment()">Save</md-button>
+               </form>
+               <div ng-repeat="x in pulledComments">
+                   <table>
+                       <th>
+                           <tr>Comment</tr>
+                           <tr>Delete</tr>
+                        </th>
+                        <tr ng-repeat="x in pulledComments.data">
+                            <td>{{x}}</td>
+                            <td><md-button ng-click="deleteComment(x)">Delete</md-button></td>
+                        </tr>  
+                   </table>
+
+               </div>
         </div>
     </div>
 
