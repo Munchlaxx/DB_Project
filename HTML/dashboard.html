@@ -176,22 +176,29 @@
         </div>
            <div id="comments">
                <form name="form.newComment">
+                   <h4>Make a comment: </h4>
                    <md-input-container>
+                       <label>Comment: </label>
                        <input ng-model="newComment.commentText">
                    </md-input-container>
                    <md-input-container>
+                       <label>Rating (1-5): </label>
                        <input ng-model="newComment.rating">
                    </md-input-container>
                    <md-button ng-click="saveComment()">Save</md-button>
                </form>
-               <div ng-repeat="x in pulledComments">
-                   <table>
-                       <th>
-                           <tr>Comment</tr>
-                           <tr>Delete</tr>
-                        </th>
+               <div style="float:center" style="overflow-y: scroll">
+                   <table style="text-align:center;border-collapse:collapse;border:1px solid black;overflow-y:scroll">
+                       <tr>
+                           <th>Comment</th>
+                           <th>Rating</th>
+                           <th>Edit</th>
+                           <th>Delete</th>
+                        </tr>
                         <tr ng-repeat="x in pulledComments.data">
-                            <td>{{x}}</td>
+                            <td>{{x.commentText}}</td>
+                            <td>{{x.rating}}</td>
+                            <td><md-button ng-click="editComment(x)">Edit</md-button></td>
                             <td><md-button ng-click="deleteComment(x)">Delete</md-button></td>
                         </tr>  
                    </table>

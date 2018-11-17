@@ -23,7 +23,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.newComment.eventID = 1;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
-
+    $scope.eventSelected = {};
     //view toggles
     $scope.createEventToggle = false;
     $scope.createRSOToggle = false;
@@ -134,6 +134,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     }
     $scope.viewEvent = function(event){
         $scope.pulledEvent = event;
+        $scope.eventSelected = event;
         $scope.viewEventToggle = true;
         var dataToSend = {};
         dataToSend.eventID = event.eventID;
@@ -150,7 +151,19 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         console.log($scope.json);
         $http.post('/createComment', $scope.json).then(function(){
             console.log("success")
+            var dataToSend = {};
+            dataToSend.eventID = $scope.eventSelected.eventID;
+            $scope.json = angular.toJson(dataToSend);
+            $http.post('/getComment', $scope.json).then(function(data){
+                console.log(data);
+                $scope.pulledComments = angular.fromJson(data);
+                $scope.showComments = true;
+            });
+        
         });
+    }
+    $scope.editComment = function(comment){
+        //code to edit comment here
     }
     $scope.deleteComment = function(comment){
         var deleteComment = {};
@@ -159,6 +172,14 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         console.log($scope.json);
         $http.post('/deleteComment', $scope.json).then(function(){
             console.log("success")
+            var dataToSend = {};
+            dataToSend.eventID = $scope.eventSelected.eventID;
+            $scope.json = angular.toJson(dataToSend);
+            $http.post('/getComment', $scope.json).then(function(data){
+                console.log(data);
+                $scope.pulledComments = angular.fromJson(data);
+                $scope.showComments = true;
+            });
         });
     }
     $scope.joinRSO = function(rso){
