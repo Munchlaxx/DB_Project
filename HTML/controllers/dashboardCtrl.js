@@ -24,6 +24,9 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
+    $scope.editCommentForm = false;
+    $scope.commentToEdit = {};
+    $scope.editedComment = {};
     //view toggles
     $scope.createEventToggle = false;
     $scope.createRSOToggle = false;
@@ -163,8 +166,29 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         });
     }
     $scope.editComment = function(comment){
-        //code to edit comment here
+
+        $scope.commentToEdit = comment;
+        $scope.editCommentForm = true;
+
     }
+    $scope.updateComment = function(){
+        $scope.json = angular.toJson($scope.commentToEdit);
+        console.log($scope.json);
+        $http.post('/updateComment', $scope.json).then(function(){
+            console.log("success")
+            var dataToSend = {};
+            dataToSend.eventID = $scope.eventSelected.eventID;
+            $scope.json = angular.toJson(dataToSend);
+            $http.post('/getComment', $scope.json).then(function(data){
+                console.log(data);
+                $scope.pulledComments = angular.fromJson(data);
+                $scope.showComments = true;
+                $scope.editCommentForm = false;
+            });
+        
+        });
+    }
+
     $scope.deleteComment = function(comment){
         var deleteComment = {};
         deleteComment.keytmp = comment.keytmp;
@@ -188,6 +212,12 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         $scope.dataToSend.name = rso.name;
         $scope.dataToSend.attendee; //code to get userID here
         $scope.json = angular.toJson(dataToSend);
+        $http.post('/joinRSO', $scope.json).then(function(data){
+            alert("Successfully Joined RSO!");
+        },
+        function(data){
+            alert("Failed to Join");
+        });
     }
 
     $scope.attendEvent = function(event){

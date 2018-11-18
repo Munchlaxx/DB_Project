@@ -175,7 +175,8 @@
            <h3>Description: {{pulledEvent.description}}</h3>
         </div>
            <div id="comments">
-               <form name="form.newComment">
+               <div id="newComment">
+               <form name="form.newComment" ng-show="!editCommentForm">
                    <h4>Make a comment: </h4>
                    <md-input-container>
                        <label>Comment: </label>
@@ -187,6 +188,21 @@
                    </md-input-container>
                    <md-button ng-click="saveComment()">Save</md-button>
                </form>
+            </div>
+            <div id="editComment" ng-show="editCommentForm">
+                    <form name="form.editComment">
+                        <h4>Update comment: </h4>
+                        <md-input-container>
+                            <label>Comment: </label>
+                            <input ng-model="commentToEdit.commentText">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Rating (1-5): </label>
+                            <input ng-model="commentToEdit.rating">
+                        </md-input-container>
+                        <md-button ng-click="updateComment()">Save Changes</md-button>
+                    </form>
+                 </div>
                <div style="float:center" style="overflow-y: scroll">
                    <table style="text-align:center;border-collapse:collapse;border:1px solid black;overflow-y:scroll">
                        <tr>
@@ -204,6 +220,7 @@
                    </table>
 
                </div>
+
         </div>
     </div>
 
