@@ -32,7 +32,7 @@
                 <form name="loginForm">
                     <md-input-container>
                         <label>Email: </label>
-                        <input ng-model="userData.email" type="email" required >
+                        <input ng-model="userData.email" type="email" required autofocus="autofocus" >
                     </md-input-container>
                 </div>
                 <br>
@@ -42,7 +42,7 @@
                         <input ng-model="userData.password" type="password" required>
                     </md-input-container>
                 </div>
-                <md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="login()" value="Log In">Sign In</md-button>
+                <md-button class="md-raised md-primary"  ng-click="login()" value="Log In">Sign In</md-button>
                 </form>
                 <md-button class="md-raised md-primary" ng-click="signUpFunc()">Sign Up</md-button>
             </div>
