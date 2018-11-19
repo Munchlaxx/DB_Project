@@ -37,6 +37,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.userInfo;
     //creating new event
     $scope.event = {};
+    $scope.event.eventID;
     $scope.event.name = '';
     $scope.event.startTime = '';
     $scope.event.endTime = '';
@@ -46,6 +47,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.event.userID = 0;
     //creating new RSO
     $scope.rso = {};
+    $scope.rso.rsoID;
     $scope.rso.name = '';
     $scope.rso.universityID = 1;
     $scope.rso.active = 0;
@@ -209,8 +211,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.joinRSO = function(rso){
         console.log(rso);
         $scope.dataToSend = {};
-        $scope.dataToSend.name = rso.name;
-        $scope.dataToSend.attendee; //code to get userID here
+        $scope.dataToSend.rsoID = rso.rsoID;
+        $scope.dataToSend.userID; //code to get userID here
         $scope.json = angular.toJson(dataToSend);
         $http.post('/joinRSO', $scope.json).then(function(data){
             alert("Successfully Joined RSO!");
@@ -223,7 +225,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.attendEvent = function(event){
         console.log(event);
         $scope.dataToSend = {};
-        $scope.dataToSend.eventID = event.name;
+        $scope.dataToSend.eventID = event.eventID;
         $scope.dataToSend.userID = $scope.userInfo.userID; 
         $scope.json = angular.toJson($scope.dataToSend);
         $http.post('/attendEvent', $scope.json).then(function(data){
@@ -250,7 +252,16 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         if($scope.rso.name != ''){
             $scope.json = angular.toJson($scope.rso);
             console.log($scope.json);
-            $http.post('/createRSO', $scope.json);
+            var dataToSend = {};
+            dataToSend.userID = $scope.rso.userID;
+            dataToSend.name = $scope.rso.name;
+            dataToSend.universityID = $scope.rso.universityID;
+            $scope.json = angular.toJson(dataToSend);
+            $http.post('/createRSO', $scope.json).then(function(data){
+                console.log(data);
+                $scope.pulledComments = angular.fromJson(data);
+                $scope.showComments = true;
+            });
         }
     }
 
