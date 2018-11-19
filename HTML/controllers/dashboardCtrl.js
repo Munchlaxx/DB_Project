@@ -43,7 +43,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.event.endTime = '';
     $scope.event.description = '';
     $scope.event.cat = 0;
-    $scope.event.location = 0;
+    $scope.event.latitude = 0;
+    $scope.event.longitude = 0;
     $scope.event.userID = 0;
     //creating new RSO
     $scope.rso = {};
