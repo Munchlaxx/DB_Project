@@ -1,12 +1,30 @@
 angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($scope, $mdDialog, $http) {
-
+    $scope.DatPractice = [
+        {
+            name: 'Event #1',
+            description: 'Practice Data #1',
+            comments: ["Comment #1", "Long Comment for checking the length of code.", "Comment #3"]
+        },
+        {
+            name: 'Event #2',
+            description: 'Practice Data #2',
+            comments: ["BLAH BLAH BLAH", "AHHHHHHHHHHHHHHH", "UGGGGGGGGGGGHHHHHHHHHHHHH"]
+        },
+        {
+            name: 'Event #3',
+            description: 'Practice Data #3',
+            comments: ["AAAAAAAAAAAAAAAAAAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CCCCCCCCCCCCCCCCCCCC"]
+        },
+    ];
     $scope.pulledEvent = {};
+    $scope.showComments = false;
     $scope.newComment = {};
-    $scope.newComment.userID = $scope.userInfo.userID;
-    $scope.newComment.eventID = $scope.event.eventID;
+    $scope.newComment.userID = 13;
+    $scope.newComment.eventID = 1;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
+    $scope.editCommentForm = false;
     $scope.commentToEdit = {};
     $scope.editedComment = {};
     //view toggles
@@ -15,17 +33,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.showEventSearchResults = false;
     $scope.showRSOSearchResults = false;
     $scope.viewEventToggle = false;
-    $scope.showComments = false;
-    $scope.editCommentForm = false;
-    //userInfo - holds user data from sign in or DB query
+    //userInfo - holds user data from sign in
     $scope.userInfo;
-    //gets userInfo on page reload:
-    $scope.getUserInfo();
-    $scope.getUserInfo = function(){
-        $http.post('userInfo').then(function(data){
-            $scope.userInfo = data;
-        });
-    }
     //creating new event
     $scope.event = {};
     $scope.event.eventID;
@@ -50,10 +59,10 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.response = '';
     $scope.searchParam = '';
     $scope.searchCat = '';
-/*     $scope.userData = {};
-    $scope.userData.userID = '';
+    $scope.userData = {};
+    $scope.userData.userID = '11223';
     $scope.userData.admin = true;
- */
+
     $scope.rsoArrayPush = function(){
         $scope.foundingMembers.push($scope.addMember);
         $scope.addMember = '';
@@ -292,14 +301,14 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     }
     $scope.logout = function(){
         //clear out user info 
-        $http.get('/logout');
+        window.location.href="signIn.html"
     }
 
     //login ctrl
      //login data
-     $scope.signInData = {};
-     $scope.signInData.email = '';
-     $scope.signInData.password = '';
+     $scope.userData = {};
+     $scope.userData.email = '';
+     $scope.userData.password = '';
  
      //sign up data
      $scope.universityList = [{name: 'UCF', code: '1'}, {name: 'Valencia', code: '2'}]; //to be replaced later when DB call works
@@ -320,7 +329,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
  
      $scope.login = function(){
          //send userData to database, if valid user, get permissions and go to next page
-         $scope.json = angular.toJson($scope.signInData);
+         $scope.json = angular.toJson($scope.userData);
          $http.post('/userLogin', $scope.json).then(function(data){
             $scope.userInfo = angular.fromJson(data);
             window.location.href="dashboard.html"
