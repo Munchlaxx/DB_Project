@@ -73,8 +73,8 @@
             <tr ng-repeat="n in searchResults.data">
                 <td>{{n.name}}</td>
                 <td>{{n.description}}</td>
-                <td>{{n.startTime |date:'medium'}}</td>
-                <td>{{n.endTime |date:'medium'}}</td>
+                <td>{{n.startTime |date:"MM/dd/yyyy 'at' h:mma"}}</td>
+                <td>{{n.endTime |date:"MM/dd/yyyy 'at' h:mma"}}</td>
                 <td>{{n.location}}</td>
                 <td>{{n.cat}}</td>
                 <td>{{n.userID}}</td>
