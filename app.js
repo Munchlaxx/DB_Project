@@ -177,7 +177,7 @@ app.post('/searchEvents', function(req,res){
 					res.status(400).send('Query Fail');
                 } 
                 else {
-					res.status(200).send(result);		
+					res.status(200).send(result)		
 				}
 					
 				// End connection
@@ -185,6 +185,46 @@ app.post('/searchEvents', function(req,res){
 			
 				});
 			}
+				
+		}
+
+	});
+});
+
+// Check event availability
+app.post('/checkEvent', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchEvent = 'SELECT * FROM ATTENDING WHERE lat = ?, lng = ?, startTime = ?, endtime = ?';
+			tempCont.query(sqlSearchEvent,[req.body.lat, req.body.lng, req.body.startTime, req.body.endTime], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					if(result.length == 0){
+						res.status(400).send("Time and location is not available");
+					}
+					
+					else{
+						res.status(200).send("Time and location is available");
+					}
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
 				
 		}
 
@@ -226,6 +266,74 @@ app.post('/createEvent', function(req,res){
 	});
 });
 
+
+// Attend Event
+app.post('/attendEvent', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlCreateEvent = 'INSERT INTO ATTENDING (userID, eventID) VALUES(';
+			tempCont.query(sqlCreateEvent + req.body.userID + "," + req.body.eventID + "')", function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
+// Search Attending Events
+app.post('/searchAttending', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchRSO = 'SELECT userID FROM ATTENDING WHERE eventID = ?';
+			tempCont.query(sqlSearchRSO,[req.body.eventID], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
 
 // Create RSO.
 app.post('/createRSO', function(req,res){
@@ -296,7 +404,7 @@ app.post('/searchRSO', function(req,res){
 });
 
 
-//User login
+//Create Comment
 app.post('/createComment', function(req,res){
     // Create connection to database
 	db.getConnection(function(err, tempCont){
@@ -317,13 +425,7 @@ app.post('/createComment', function(req,res){
 				}
 				 
                 else {
-					if (result.length == 0){
-						res.status(400).send('No match')
-					}
-					else{
-						res.status(200).send(result);	
-					}
-							
+					res.status(200).send(result);							
 				}
 			
 				});
@@ -377,7 +479,7 @@ app.post('/getComment', function(req,res){
 });
 
 
-// Get event comments.
+// Delete event comments.
 app.post('/deleteComment', function(req,res){
 
     // Create connection to database
@@ -405,6 +507,46 @@ app.post('/deleteComment', function(req,res){
 				tempCont.release();
 			
 			});
+				
+		}
+
+	});
+});
+
+
+//Update Comment
+app.post('/updateComment', function(req,res){
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');				
+		} 
+		
+		else { 			
+			if (checkInput(req.body.comment, "comment")){
+				const sql = 'UPDATE COMMENTS SET commentText = ?, rating = ? WHERE keytmp = ?';
+				tempCont.query(sql,[req.body.commentText, req.body.rating, req.body.keytmp], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+				}
+				 
+                else {
+					res.status(200).send(result);							
+				}
+			
+				});
+			}
+
+			else{
+				res.status(400).send('Invalid Input');
+			}
+
+			// End connection
+			tempCont.release();
 				
 		}
 
