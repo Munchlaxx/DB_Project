@@ -2,8 +2,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
     $scope.pulledEvent = {};
     $scope.newComment = {};
-    $scope.newComment.userID;
-    $scope.newComment.eventID;
+    $scope.newComment.userID = $scope.userInfo.userID;
+    $scope.newComment.eventID = $scope.event.eventID;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
@@ -20,13 +20,12 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     //userInfo - holds user data from sign in or DB query
     $scope.userInfo;
     //gets userInfo on page reload:
+    $scope.getUserInfo();
     $scope.getUserInfo = function(){
         $http.post('userInfo').then(function(data){
             $scope.userInfo = data;
         });
     }
-    $scope.getUserInfo();
-
     //creating new event
     $scope.event = {};
     $scope.event.eventID;
@@ -162,8 +161,6 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         });
     }
     $scope.saveComment = function(){
-        $scope.newComment.eventID = $scope.event.eventID;
-        $scope.newComment.userID = $scope.userInfo.userID;
         $scope.json = angular.toJson($scope.newComment);
         console.log($scope.json);
         $http.post('/createComment', $scope.json).then(function(){
