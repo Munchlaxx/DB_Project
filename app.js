@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const PORT = 3000
 var path = require('path');
+var userID = ''
 
 // Creating the express server
 const app = express();
@@ -45,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'HTML')));
 
 // 6 pages total
 // Pulling the login page
-app.get('/login',function(req,res){
+app.get('/',function(req,res){
     res.sendFile(__dirname + '/html/signin.html');
 });
 
@@ -95,7 +96,7 @@ app.post('/addUser', function(req, res){
 
 //User login
 app.post('/userLogin', function(req,res){
-    // Create connection to database
+	// Create connection to database
 	db.getConnection(function(err, tempCont){
 			
 		// Error if connection is not established
@@ -119,6 +120,7 @@ app.post('/userLogin', function(req,res){
 						res.status(400).send('No match')
 					}
 					else{
+						userID = result[0].userID;
 						res.status(200).send(result);	
 					}
 							
@@ -133,6 +135,12 @@ app.post('/userLogin', function(req,res){
 		}
 
 	});
+});
+
+//logout function
+app.get('/searchEvents', function(req,res){
+	userID = '';
+	res.redirect('/');
 });
 
 
@@ -151,7 +159,7 @@ app.post('/searchEvents', function(req,res){
 		} else { 
 			
 			
-			if(req.body.flag == 0){
+			if(req.body.flag == 1){
 				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
 				tempCont.query(sqlSearchEvent,[req.body.name, req.body.cat], function(err, result) {
 					
