@@ -177,7 +177,7 @@ app.post('/searchEvents', function(req,res){
 					res.status(400).send('Query Fail');
                 } 
                 else {
-					res.status(200).send(result);		
+					res.status(200).send(result)		
 				}
 					
 				// End connection
@@ -226,6 +226,40 @@ app.post('/createEvent', function(req,res){
 	});
 });
 
+
+// Attend Event
+app.post('/attendEvent', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlCreateEvent = 'INSERT INTO ATTENDING (userID, eventID) VALUES(';
+			tempCont.query(sqlCreateEvent + req.body.userID + "," + req.body.eventID + "')", function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
 
 // Create RSO.
 app.post('/createRSO', function(req,res){
