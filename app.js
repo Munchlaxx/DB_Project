@@ -261,6 +261,40 @@ app.post('/attendEvent', function(req,res){
 	});
 });
 
+// Search Attending Events
+app.post('/searchAttending', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchRSO = 'SELECT userID FROM ATTENDING WHERE eventID = ?';
+			tempCont.query(sqlSearchRSO,[req.body.eventID], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
 // Create RSO.
 app.post('/createRSO', function(req,res){
 
