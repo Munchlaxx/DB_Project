@@ -106,7 +106,7 @@ app.post('/userLogin', function(req,res){
 		
 		else { 			
 			var password = calcMD5(req.body.password);
-			if (checkInput(req.body.userID, "username") && checkInput(password, "password")){
+			if (checkInput(req.body.email, "email") && checkInput(password, "password")){
 				const sql = 'SELECT userID, email, universityID FROM STD_USER WHERE email = ? AND pass = ?';
 				tempCont.query(sql, [req.body.email, password], function(err, result) {
 					
@@ -138,18 +138,15 @@ app.post('/userLogin', function(req,res){
 });
 
 //logout function
-app.get('/searchEvents', function(req,res){
+app.get('/logout', function(req,res){
 	userID = '';
 	res.redirect('/');
 });
 
+// Displaying the name
+app.post('/userInfo', function(req,res){
 
-
-
-// Search for events.
-app.post('/searchEvents', function(req,res){
-	
-	// Create connection to database
+    // Create connection to database
 	db.getConnection(function(err, tempCont){
 			
 		// Error if connection is not established
@@ -158,6 +155,45 @@ app.post('/searchEvents', function(req,res){
 				
 		} else { 
 			
+			
+			const sqlSearchRSO = 'SELECT * FROM STD_USER WHERE userID = ?';
+			tempCont.query(sqlSearchRSO,[userID], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
+
+
+
+// Search for events.
+app.post('/searchEvents', function(req,res){
+	if(!userID){
+		res.status(400).send('User not logged in');
+	}
+	else{
+		// Create connection to database
+		db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
 			
 			if(req.body.flag == 1){
 				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
@@ -170,9 +206,6 @@ app.post('/searchEvents', function(req,res){
                 else {
 					res.status(200).send(result);		
 				}
-					
-				// End connection
-				tempCont.release();
 			
 				});
 			}
@@ -187,16 +220,17 @@ app.post('/searchEvents', function(req,res){
                 else {
 					res.status(200).send(result)		
 				}
-					
-				// End connection
-				tempCont.release();
 			
 				});
 			}
 				
 		}
+			// End connection
+			tempCont.release();
 
 	});
+
+	}
 });
 
 // Check event availability
@@ -254,7 +288,7 @@ app.post('/createEvent', function(req,res){
 			
 			
 			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, startTime, endTime, location, name, description) VALUES(';
-			tempCont.query(sqlCreateEvent + req.body.userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.location + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
+			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.location + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -289,7 +323,7 @@ app.post('/attendEvent', function(req,res){
 			
 			
 			const sqlCreateEvent = 'INSERT INTO ATTENDING (userID, eventID) VALUES(';
-			tempCont.query(sqlCreateEvent + req.body.userID + "," + req.body.eventID + "')", function(err, result) {
+			tempCont.query(sqlCreateEvent + userID + "," + req.body.eventID + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -357,7 +391,7 @@ app.post('/createRSO', function(req,res){
 			
 			
 			const sqlCreateEvent = 'INSERT INTO RSO (universityID, userID, name) VALUES(';
-			tempCont.query(sqlCreateEvent + req.body.universityID + "," + req.body.userID + ", '" + req.body.name + "')", function(err, result) {
+			tempCont.query(sqlCreateEvent + req.body.universityID + "," + userID + ", '" + req.body.name + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -425,7 +459,7 @@ app.post('/createComment', function(req,res){
 		else { 			
 			if (checkInput(req.body.comment, "comment")){
 				const sql = 'INSERT INTO COMMENTS (userID, eventID, rating, commentText) VALUES(';
-				tempCont.query(sql + req.body.userID + "," + req.body.eventID + "," + req.body.rating + ",'" + req.body.commentText + "')", function(err, result) {
+				tempCont.query(sql + userID + "," + req.body.eventID + "," + req.body.rating + ",'" + req.body.commentText + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
