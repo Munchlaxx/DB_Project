@@ -76,6 +76,10 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             var dataToSend = {};
             dataToSend.name = $scope.searchParam;
             dataToSend.cat = 0;
+            dataToSend.flag = 0;
+            if($scope.searchParam != ""){
+                dataToSend.flag = 1;
+            }
             $scope.json = angular.toJson(dataToSend);
             $http.post('/searchEvents', $scope.json).then(function(data){
                 $scope.response = data;
@@ -93,6 +97,10 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             var dataToSend = {};
             dataToSend.name = $scope.searchParam;
             dataToSend.cat = 1;
+            dataToSend.flag = 0;
+            if($scope.searchParam != ""){
+                dataToSend.flag = 1;
+            }
             $scope.json = angular.toJson(dataToSend);
             $http.post('/searchEvents', $scope.json).then(function(data){
                 $scope.response = data;
@@ -109,6 +117,10 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             var dataToSend = {};
             dataToSend.name = $scope.searchParam;
             dataToSend.cat = 2;
+            dataToSend.flag = 0;
+            if($scope.searchParam != ""){
+                dataToSend.flag = 1;
+            }
             $scope.json = angular.toJson(dataToSend);
             $http.post('/searchEvents', $scope.json).then(function(data){
                 $scope.response = data;
@@ -124,9 +136,15 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             //rso org
             var dataToSend = {};
             dataToSend.name = $scope.searchParam;
+            dataToSend.cat = 3;
+            dataToSend.flag = 0;
+            if($scope.searchParam != ""){
+                dataToSend.flag = 1;
+            }
             $scope.json = angular.toJson(dataToSend);
             $http.post('/searchRSO', $scope.json).then(function(data){
                 $scope.response = data;
+
                 console.log("retrieved data: ");
                 console.log($scope.response);
                 $scope.searchResults = angular.fromJson($scope.response);
