@@ -191,6 +191,46 @@ app.post('/searchEvents', function(req,res){
 	});
 });
 
+// Check event availability
+app.post('/checkEvent', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchEvent = 'SELECT * FROM ATTENDING WHERE lat = ?, lng = ?, startTime = ?, endtime = ?';
+			tempCont.query(sqlSearchEvent,[req.body.lat, req.body.lng, req.body.startTime, req.body.endTime], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					if(result.length == 0){
+						res.status(400).send("Time and location is not available");
+					}
+					
+					else{
+						res.status(200).send("Time and location is available");
+					}
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
 
 // Create Event.
 app.post('/createEvent', function(req,res){
@@ -495,13 +535,7 @@ app.post('/updateComment', function(req,res){
 				}
 				 
                 else {
-					if (result.length == 0){
-						res.status(400).send('No match')
-					}
-					else{
-						res.status(200).send(result);	
-					}
-							
+					res.status(200).send(result);							
 				}
 			
 				});
