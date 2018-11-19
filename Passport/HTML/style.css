@@ -1,0 +1,61 @@
+.login-button {
+  color: green;
+}
+
+.inputContainer{
+  color: lightblue;
+}
+
+.dashboard{
+  background-color: black;
+}
+
+.searchEngine{
+  background-color: cadetblue;
+}
+
+.rso{
+  background-color: cadetblue;
+}
+
+.university{
+  background-color: cadetblue;
+}
+
+.event{
+  background-color: cadetblue;
+}
+
+.loginPage{
+  background-color: black;
+}
+
+.footer{
+  text-align:center;
+  background-color: black;
+  padding:1px;
+  margin:0
+}
+
+.boxWithShadow{
+  text-align:center;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0, 6px, 20px, 0, rgba(0, 0, 0, 0.19); */
+  box-shadow: 4px 4px 2px black;
+}
+
+.header img {
+  float: left;
+  width: 92px;
+  height: 80px;
+  /* background: gray; */
+}
+
+.header h1 {
+  /* position: right; */
+  top: 0px;
+  left: 5px;
+}
+
+.md-nav-bar {
+  float: right;
+}
