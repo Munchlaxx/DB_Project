@@ -296,7 +296,7 @@ app.post('/searchRSO', function(req,res){
 });
 
 
-//User login
+//Create Comment
 app.post('/createComment', function(req,res){
     // Create connection to database
 	db.getConnection(function(err, tempCont){
@@ -317,13 +317,7 @@ app.post('/createComment', function(req,res){
 				}
 				 
                 else {
-					if (result.length == 0){
-						res.status(400).send('No match')
-					}
-					else{
-						res.status(200).send(result);	
-					}
-							
+					res.status(200).send(result);							
 				}
 			
 				});
@@ -377,7 +371,7 @@ app.post('/getComment', function(req,res){
 });
 
 
-// Get event comments.
+// Delete event comments.
 app.post('/deleteComment', function(req,res){
 
     // Create connection to database
@@ -405,6 +399,52 @@ app.post('/deleteComment', function(req,res){
 				tempCont.release();
 			
 			});
+				
+		}
+
+	});
+});
+
+
+//Update Comment
+app.post('/updateComment', function(req,res){
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');				
+		} 
+		
+		else { 			
+			if (checkInput(req.body.comment, "comment")){
+				const sql = 'UPDATE COMMENTS SET commentText = ?, rating = ? WHERE keytmp = ?';
+				tempCont.query(sql,[req.body.commentText, req.body.rating, req.body.keytmp], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+				}
+				 
+                else {
+					if (result.length == 0){
+						res.status(400).send('No match')
+					}
+					else{
+						res.status(200).send(result);	
+					}
+							
+				}
+			
+				});
+			}
+
+			else{
+				res.status(400).send('Invalid Input');
+			}
+
+			// End connection
+			tempCont.release();
 				
 		}
 
