@@ -4,7 +4,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.createRSOToggle = false;
     $scope.showEventSearchResults = false;
     $scope.showRSOSearchResults = false;
-    $scope.viewEventToggle = false;
+    $scope.showMeEvent = false;
     $scope.editCommentForm = false;
     $scope.showComments = false;
     $scope.defaultToggle = true;
@@ -47,7 +47,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = true;
             $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = false;
+        //    $scope.showMeEvent = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = false;
@@ -58,7 +58,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = true;
-            $scope.viewEventToggle = false;
+        //    $scope.showMeEvent = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = false;
@@ -69,8 +69,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.createEventToggle = true;
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = false;
-            $scope.showRSOSearchResults = true;
-            $scope.viewEventToggle = false;
+            $scope.showRSOSearchResults = false;
+       //     $scope.showMeEvent = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = false;
@@ -82,7 +82,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.createRSOToggle = true;
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = false;
+      //      $scope.showMeEvent = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = false;
@@ -90,14 +90,15 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.mapDestroy();
         } else if(key == 4){
             //show view event
+          //  $scope.showMeEvent = true;
             $scope.createEventToggle = false;
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = true;
             $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = false;
+            console.log($scope.viewEventToggle);
 
             $scope.mapCreate();
         } else {
@@ -105,11 +106,10 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = false;
+          //  $scope.showMeEvent = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = true;
-
             $scope.mapDestroy();
         }
     }
@@ -175,7 +175,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 $scope.searchResults = angular.fromJson($scope.response);
                 console.log("Parsed response: ");
                 console.log($scope.searchResults);
-                $scope.showEventSearchResults = true;
+                $scope.viewDivToggle(0);                
             });        
             
         }
@@ -197,6 +197,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 console.log("Parsed response: ");
                 console.log($scope.searchResults);
                 $scope.showEventSearchResults = true;
+                $scope.viewDivToggle(0);  
             });
         }
         if($scope.searchCat == '2'){
@@ -217,6 +218,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 console.log("Parsed response: ");
                 console.log($scope.searchResults);
                 $scope.showEventSearchResults = true;
+                $scope.viewDivToggle(0);  
             });
         }
         if($scope.searchCat == '3'){
@@ -238,15 +240,18 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 console.log("Parsed response: ");
                 console.log($scope.searchResults);
                 $scope.showRSOSearchResults = true;
+                $scope.viewDivToggle(1);  
             });
           
         }
     }
     $scope.viewEvent = function(event){
+        console.log("viewing event")
         $scope.viewDivToggle(4);
+        $scope.showMeEvent = true;
         $scope.pulledEvent = event;
         $scope.eventSelected = event;
-        $scope.viewEventToggle = true;
+       // $scope.viewEventToggle = true;
         var dataToSend = {};
         dataToSend.eventID = event.eventID;
         $scope.json = angular.toJson(dataToSend);
