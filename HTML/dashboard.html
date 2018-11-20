@@ -16,6 +16,7 @@
 <body class="dashboard">
 
     <md-nav-bar>
+        <font style="text-align:left"><font color="white">{{user.firstName}} {{user.lastName}}</font>
         <md-nav-item md-nav-click="logout()"><font color="white">Logout</font></md-nav-item>
     </md-nav-bar>
 
@@ -23,9 +24,10 @@
       <br>
       <img src="university.png" alt="logo"/>
       <h1><font color="#E95412">Dashboard</font></h1>
+      <br>
     </div>
 
-    <h5 style="text-align:center"><font color="white">{{user.firstName}} {{user.lastName}}</font></h5>
+    <!-- <h5 style="text-align:center"><font color="white">{{user.firstName}} {{user.lastName}}</font></h5> -->
     <md-content layout-padding style="background-color:gray;padding:50px" >
     <div class="boxWithShadow" style="background-color:white;width:70%;margin:auto;border-radius:25px">
     <md-input-container>
@@ -148,7 +150,7 @@
             {{$scope.map}}
         </div>
         <!-- inserting map things maybe -->
-        
+
         <!-- mappy's special place end -->
     </div>
     <div name="createRSO" ng-click="viewDivToggle(3)" ng-show="createRSOToggle">
@@ -183,7 +185,7 @@
                function initMap() {
                    map = new google.maps.Map(document.getElementById('map'),{
                        center: ucfCampusCenter,
-                   zoom: 12 
+                   zoom: 12
                    }); //ucf center
                    var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
                    //var geocoder = new google.maps.Geocoder();
