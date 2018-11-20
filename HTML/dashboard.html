@@ -23,11 +23,11 @@
       <h1><font color="#E95412">Dashboard</font></h1>
     </div>
 
-    <h5 style="text-align:center"><font color="white">UserID:  {{user.userID}}</font></h5>
+    <h5 style="text-align:center"><font color="white">{{user.firstName}} {{user.lastName}}</font></h5>
     <md-content layout-padding style="background-color:gray;padding:50px" >
     <div class="boxWithShadow" style="background-color:white;width:70%;margin:auto;border-radius:25px">
     <md-input-container>
-        <md-button ng-click="createEvent()"><font color="green">Create Your Event</font></md-button>
+        <md-button ng-click="createEvent()" ng-if="user.isAdmin || user.isSuperAdmin"><font color="green">Create Your Event</font></md-button>
     </md-input-container>
     <md-input-container>
         <md-button ng-click="createRSO()"><font color="green">Create your RSO</font></md-button>
@@ -207,8 +207,8 @@
                         <tr ng-repeat="x in pulledComments.data">
                             <td>{{x.commentText}}</td>
                             <td>{{x.rating}}</td>
-                            <td><md-button ng-click="editComment(x)">Edit</md-button></td>
-                            <td><md-button ng-click="deleteComment(x)">Delete</md-button></td>
+                            <td><md-button ng-click="editComment(x)" ng-show="x.userID == user.userID">Edit</md-button></td>
+                            <td><md-button ng-click="deleteComment(x)" ng-show="x.userID == user.userID">Delete</md-button></td>
                         </tr>
                    </table>
 
