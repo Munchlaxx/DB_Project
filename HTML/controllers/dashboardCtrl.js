@@ -1,5 +1,13 @@
 angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($scope, $mdDialog, $http) {
-
+    //view toggles
+    $scope.createEventToggle = false;
+    $scope.createRSOToggle = false;
+    $scope.showEventSearchResults = false;
+    $scope.showRSOSearchResults = false;
+    $scope.viewEventToggle = false;
+    $scope.editCommentForm = false;
+    $scope.showComments = false;
+    //
     $scope.pulledEvent = {};    //holds event to open in detailed view
     $scope.newComment = {};
     $scope.newComment.userID;
@@ -10,14 +18,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.commentToEdit = {};
     $scope.editedComment = {};
     $scope.user = {};   //holds user data while session is on
-    //view toggles
-    $scope.createEventToggle = false;
-    $scope.createRSOToggle = false;
-    $scope.showEventSearchResults = false;
-    $scope.showRSOSearchResults = false;
-    $scope.viewEventToggle = false;
-    $scope.editCommentForm = false;
-    $scope.showComments = false;
+
     //userInfo - holds user data from sign in
     $scope.userInfo;
     $scope.getUserInfo = function(){
@@ -260,6 +261,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         }
         if($scope.event.name != ''){
             $scope.json = angular.toJson($scope.event);
+            console.log($scope.json);
             $http.post('/createEvent', $scope.json);
         }
     }
@@ -353,5 +355,62 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 console.log("login success");
             });
      }
+    }
+
+    $scope.viewDivToggle = function(key){
+        if(key == 0){
+            //show event search results
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = true;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+        } else if(key == 1){
+            //show rso search results
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = true;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+        } else if(key == 2){
+            //show create event form
+            $scope.createEventToggle = true;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = true;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+        } else if(key == 3){
+            //show  create RSO form
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = true;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+        } else if(key == 4){
+            //show view event
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = true;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+        } else {
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+        }
     }
 });
