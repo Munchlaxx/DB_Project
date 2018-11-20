@@ -255,8 +255,6 @@ app.post('/searchEvents', function(req,res){
 						res.status(400).send('Query Fail');
 					} 
 					else {
-						console.log(req.body.cat);
-						console.log(req.body.universityID);
 						res.status(200).send(result)		
 					}
 				
@@ -428,7 +426,7 @@ app.post('/createEvent', function(req,res){
 			
 			
 			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, startTime, endTime, lat, lng, name, description) VALUES(';
-			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "'," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
+			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -606,11 +604,9 @@ app.post('/joinRSO', function(req,res){
 					
 				// Check if query works
 				if (err) {
-					console.log("failed")
 					res.status(400).send('Query Fail');
                 } 
                 else {
-					console.log("success");
 					res.status(200).send(result);		
 				}
 					
