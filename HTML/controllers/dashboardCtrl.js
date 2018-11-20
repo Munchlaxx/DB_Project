@@ -7,6 +7,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.viewEventToggle = false;
     $scope.editCommentForm = false;
     $scope.showComments = false;
+    $scope.defaultToggle = true;
     //
     $scope.map = {};
     $scope.pulledEvent = {};    //holds event to open in detailed view
@@ -20,6 +21,98 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.editedComment = {};
     $scope.user = {};   //holds user data while session is on
 
+
+    
+    $scope.mapDestroy = function() {
+        $scope.map = {};
+    }
+
+    $scope.mapCreate = function() {
+        $scope.map;
+        var ucfCampusCenter = {lat: 28.6024274, lng: -81.2000599};
+        function initMap() {
+            $scope.map = new google.maps.Map(document.getElementById('map'),{
+                center: ucfCampusCenter,
+            zoom: 12 
+            }); //ucf center
+            var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
+            //var geocoder = new google.maps.Geocoder();
+        }
+    }
+
+    $scope.viewDivToggle = function(key){
+        if(key == 0){
+            //show event search results
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = true;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+            $scope.defaultToggle = false;
+            $scope.mapDestroy();
+        } else if(key == 1){
+            //show rso search results
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = true;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+            $scope.defaultToggle = false;
+
+            $scope.mapDestroy();
+        } else if(key == 2){
+            //show create event form
+            $scope.createEventToggle = true;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = true;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+            $scope.defaultToggle = false;
+
+            $scope.mapCreate();
+        } else if(key == 3){
+            //show  create RSO form
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = true;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+            $scope.defaultToggle = false;
+
+            $scope.mapDestroy();
+        } else if(key == 4){
+            //show view event
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = true;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+            $scope.defaultToggle = false;
+
+            $scope.mapCreate();
+        } else {
+            $scope.createEventToggle = false;
+            $scope.createRSOToggle = false;
+            $scope.showEventSearchResults = false;
+            $scope.showRSOSearchResults = false;
+            $scope.viewEventToggle = false;
+            $scope.editCommentForm = false;
+            $scope.showComments = false;
+            $scope.defaultToggle = true;
+
+            $scope.mapDestroy();
+        }
+    }
     //userInfo - holds user data from sign in
     $scope.userInfo;
     $scope.getUserInfo = function(){
@@ -150,6 +243,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         }
     }
     $scope.viewEvent = function(event){
+        $scope.viewDivToggle(4);
         $scope.pulledEvent = event;
         $scope.eventSelected = event;
         $scope.viewEventToggle = true;
@@ -249,6 +343,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         });
     }
     $scope.createEvent = function(){
+        $scope.viewDivToggle(2);
         //gather info and send to db
         $scope.event.userID = $scope.user.userID;
         $scope.event.universityID = $scope.user.universityID;
@@ -266,6 +361,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
     $scope.createRSO = function(){
         //form with 5 users
+        $scope.viewDivToggle(3);
         if($scope.rso.name != ''){
             $scope.json = angular.toJson($scope.rso);
             console.log($scope.json);
@@ -337,85 +433,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
      }
     }
 
-    $scope.mapDestroy = function() {
-        $scope.map = {};
-    }
 
-    $scope.mapCreate = function() {
-        $scope.map;
-        var ucfCampusCenter = {lat: 28.6024274, lng: -81.2000599};
-        function initMap() {
-            $scope.map = new google.maps.Map(document.getElementById('map'),{
-                center: ucfCampusCenter,
-            zoom: 12 
-            }); //ucf center
-            var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
-            //var geocoder = new google.maps.Geocoder();
-        }
-    }
 
-    $scope.viewDivToggle = function(key){
-        if(key == 0){
-            //show event search results
-            $scope.createEventToggle = false;
-            $scope.createRSOToggle = false;
-            $scope.showEventSearchResults = true;
-            $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
-            $scope.mapDestroy();
-        } else if(key == 1){
-            //show rso search results
-            $scope.createEventToggle = false;
-            $scope.createRSOToggle = false;
-            $scope.showEventSearchResults = false;
-            $scope.showRSOSearchResults = true;
-            $scope.viewEventToggle = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
-            $scope.mapDestroy();
-        } else if(key == 2){
-            //show create event form
-            $scope.createEventToggle = true;
-            $scope.createRSOToggle = false;
-            $scope.showEventSearchResults = false;
-            $scope.showRSOSearchResults = true;
-            $scope.viewEventToggle = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
-            $scope.mapCreate();
-        } else if(key == 3){
-            //show  create RSO form
-            $scope.createEventToggle = false;
-            $scope.createRSOToggle = true;
-            $scope.showEventSearchResults = false;
-            $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
-            $scope.mapDestroy();
-        } else if(key == 4){
-            //show view event
-            $scope.createEventToggle = false;
-            $scope.createRSOToggle = false;
-            $scope.showEventSearchResults = false;
-            $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = true;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
-            $scope.mapCreate();
-        } else {
-            $scope.createEventToggle = false;
-            $scope.createRSOToggle = false;
-            $scope.showEventSearchResults = false;
-            $scope.showRSOSearchResults = false;
-            $scope.viewEventToggle = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
-            $scope.mapDestroy();
-        }
-    }
     //on page load:
     $scope.viewDivToggle(999);
 });
