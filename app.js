@@ -500,9 +500,7 @@ app.post('/searchRSO', function(req,res){
 				
 		} else { 
 			
-			
-			const sqlSearchRSO = 'SELECT * FROM RSO WHERE name = ?';
-			tempCont.query(sqlSearchRSO,[req.body.name], function(err, result) {
+			tempCont.query("SELECT * FROM RSO WHERE name LIKE '%" + req.body.name + "%'", function(err, result) {
 					
 				// Check if query works
 				if (err) {
