@@ -49,8 +49,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.showEventSearchResults = true;
             $scope.showRSOSearchResults = false;
         //    $scope.showMeEvent = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
+         //   $scope.editCommentForm = false;
+        //    $scope.showComments = false;
             $scope.defaultToggle = false;
             $scope.mapDestroy();
         } else if(key == 1){
@@ -62,8 +62,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = true;
         //    $scope.showMeEvent = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
+          //  $scope.editCommentForm = false;
+        //    $scope.showComments = false;
             $scope.defaultToggle = false;
 
             $scope.mapDestroy();
@@ -76,8 +76,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = false;
        //     $scope.showMeEvent = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
+        //    $scope.editCommentForm = false;
+        //    $scope.showComments = false;
             $scope.defaultToggle = false;
 
             $scope.mapCreate();
@@ -90,8 +90,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = false;
       //      $scope.showMeEvent = false;
-            $scope.editCommentForm = false;
-            $scope.showComments = false;
+         //   $scope.editCommentForm = false;
+        //    $scope.showComments = false;
             $scope.defaultToggle = false;
 
             $scope.mapDestroy();
@@ -102,7 +102,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = false;
             $scope.showRSOSearchResults = false;
-            $scope.editCommentForm = false;
+        //    $scope.editCommentForm = false;
             $scope.showComments = false;
             $scope.defaultToggle = false;
             console.log($scope.viewEventToggle);
