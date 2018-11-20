@@ -201,7 +201,7 @@ app.post('/searchEvents', function(req,res){
 			// If Public Event
 			if (req.body.cat == 0){
 				if(req.body.flag == 1){
-					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND name LIKE '%" + req.body.name + "%'",[req.user.cat], function(err, result) {
+					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND name LIKE '%" + req.body.name + "%'",[req.body.cat], function(err, result) {
 						
 					// Check if query works
 					if (err) {
@@ -602,13 +602,15 @@ app.post('/joinRSO', function(req,res){
 			
 			
 			const sqlCreateEvent = 'INSERT INTO RSO_MEMBERS (rsoID, userID) VALUES(';
-			tempCont.query(sqlCreateEvent + req.body.rsoID + "," + userID + "')", function(err, result) {
+			tempCont.query(sqlCreateEvent + req.body.rsoID + "," + userID + ")", function(err, result) {
 					
 				// Check if query works
 				if (err) {
+					console.log("failed")
 					res.status(400).send('Query Fail');
                 } 
                 else {
+					console.log("success");
 					res.status(200).send(result);		
 				}
 					
