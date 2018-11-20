@@ -53,7 +53,7 @@ app.get('/',function(req,res){
 //////////////////////////////////////////////////////////////////////
 
 
-//Routes
+// USER ROUTES
 
 //Create user
 app.post('/addUser', function(req, res){
@@ -177,6 +177,11 @@ app.post('/userInfo', function(req,res){
 	});
 });
 
+// EVENT ROUTES
+
+
+
+
 
 
 
@@ -195,33 +200,100 @@ app.post('/searchEvents', function(req,res){
 				
 		} else { 
 			
-			if(req.body.flag == 1){
-				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE name = ? AND cat = ?';
-				tempCont.query(sqlSearchEvent,[req.body.name, req.body.cat], function(err, result) {
-					
-				// Check if query works
-				if (err) {
-					res.status(400).send('Query Fail');
-                } 
-                else {
-					res.status(200).send(result);		
+			// If Public Event
+			if (req.body.cat == 0){
+				if(req.body.flag == 1){
+					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND name LIKE '%" + req.body.name + "%'",[req.user.cat], function(err, result) {
+						
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result);		
+					}
+				
+					});
 				}
-			
-				});
+
+				else{
+					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1';
+					tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
+					
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result)		
+					}
+				
+					});
+				}
 			}
-			else{
-				const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ?';
-				tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
-					
-				// Check if query works
-				if (err) {
-					res.status(400).send('Query Fail');
-                } 
-                else {
-					res.status(200).send(result)		
+
+			// If Private Event
+			else if (req.body.cat == 1){
+				
+				if(req.body.flag == 1){
+					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND universityID = ? AND name LIKE '%" + req.body.name + "%'",[req.user.cat, req.body.universityID], function(err, result) {
+						
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result);		
+					}
+				
+					});
 				}
-			
-				});
+
+				else{
+					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ? AND universityID = ? AND approved = 1';
+					tempCont.query(sqlSearchEvent,[req.body.cat, req.body.universityID], function(err, result) {
+					
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result)		
+					}
+				
+					});
+				}
+			}
+
+			else{
+				if(req.body.flag == 1){
+					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND name LIKE '%" + req.body.name + "%'",[req.user.cat], function(err, result) {
+						
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result);		
+					}
+				
+					});
+				}
+
+				else{
+					const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1';
+					tempCont.query(sqlSearchEvent,[req.body.cat], function(err, result) {
+					
+					// Check if query works
+					if (err) {
+						res.status(400).send('Query Fail');
+					} 
+					else {
+						res.status(200).send(result)		
+					}
+				
+					});
+				}
 			}
 				
 		}
@@ -287,8 +359,8 @@ app.post('/createEvent', function(req,res){
 		} else { 
 			
 			
-			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, startTime, endTime, location, name, description) VALUES(';
-			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.location + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
+			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, startTime, endTime, lat, lng, name, description) VALUES(';
+			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "'," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -376,6 +448,11 @@ app.post('/searchAttending', function(req,res){
 
 	});
 });
+
+// RSO ROUTES
+
+
+
 
 // Create RSO.
 app.post('/createRSO', function(req,res){
@@ -478,6 +555,46 @@ app.post('/joinRSO', function(req,res){
 
 	});
 });
+
+// Finds the RSOs for the user
+app.post('/usersRso', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchRSO = 'SELECT * FROM RSO_MEMBERS WHERE userID = ?';
+			tempCont.query(sqlSearchRSO,[userID], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
+
+// COMMENT ROUTES
+
+
+
 
 
 //Create Comment
