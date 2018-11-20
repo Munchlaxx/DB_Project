@@ -305,6 +305,75 @@ app.post('/searchEvents', function(req,res){
 	}
 });
 
+// eventApproval
+app.post('/approveEvents', function(req,res){
+
+	// Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchEvent = 'SELECT * FROM ALL_EVENTS WHERE approved = 0';
+			tempCont.query(sqlSearchEvent, function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+
+});
+
+// Change event from approval 0 to approval 1
+app.post('/updateEvent', function(req,res){
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');				
+		} 
+		
+		else { 			
+			const sql = 'UPDATE ALL_EVENTS SET approval = ?, WHERE eventID = ?';
+			tempCont.query(sql,[req.body.approval, req.body.eventID], function(err, result) {
+					
+			// Check if query works
+			if (err) {
+				res.status(400).send('Query Fail');
+			}
+				 
+            else {
+				res.status(200).send(result);							
+			}
+			
+			});				
+		}
+
+		// End connection
+		tempCont.release();
+
+	});
+});
+
+
+
 // Check event availability
 app.post('/checkEvent', function(req,res){
 
