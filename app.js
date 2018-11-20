@@ -236,7 +236,7 @@ app.post('/searchEvents', function(req,res){
 			else if (req.body.cat == 1){
 				
 				if(req.body.flag == 1){
-					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND universityID = ? AND name LIKE '%" + req.body.name + "%'",[req.user.cat, req.body.universityID], function(err, result) {
+					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = ? AND universityID = ? AND name LIKE '%" + req.body.name + "%'",[req.user.cat, req.body.approved, req.body.universityID], function(err, result) {
 						
 					// Check if query works
 					if (err) {

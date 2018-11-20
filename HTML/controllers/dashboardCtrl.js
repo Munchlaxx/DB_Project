@@ -43,7 +43,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.viewDivToggle = function(key){
         if(key == 0){
             //show event search results
-            $scope.showMeEvent = false;
+         //   $scope.showMeEvent = false;
             $scope.createEventToggle = false;
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = true;
@@ -54,7 +54,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.defaultToggle = false;
             $scope.mapDestroy();
         } else if(key == 1){
-            $scope.showMeEvent = false;
+         //   $scope.showMeEvent = false;
 
             //show rso search results
             $scope.createEventToggle = false;
@@ -68,7 +68,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
             $scope.mapDestroy();
         } else if(key == 2){
-            $scope.showMeEvent = false;
+      //      $scope.showMeEvent = false;
 
             //show create event form
             $scope.createEventToggle = true;
@@ -82,7 +82,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
             $scope.mapCreate();
         } else if(key == 3){
-            $scope.showMeEvent = false;
+        //    $scope.showMeEvent = false;
 
             //show  create RSO form
             $scope.createEventToggle = false;
@@ -190,9 +190,11 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             //private event
             var dataToSend = {};
             dataToSend.name = $scope.searchParam;
+            dataToSend.approved = 1
             dataToSend.cat = 1;
             dataToSend.flag = 0;
-            if($scope.searchParam != ""){
+            dataToSend.universityID = $scope.user.universityID;
+            if($scope.searchParam != ''){
                 dataToSend.flag = 1;
             }
             $scope.json = angular.toJson(dataToSend);
@@ -213,7 +215,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             dataToSend.name = $scope.searchParam;
             dataToSend.cat = 2;
             dataToSend.flag = 0;
-            if($scope.searchParam != ""){
+            if($scope.searchParam != ''){
                 dataToSend.flag = 1;
             }
             $scope.json = angular.toJson(dataToSend);
@@ -234,7 +236,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             dataToSend.name = $scope.searchParam;
             dataToSend.cat = 3;
             dataToSend.flag = 0;
-            if($scope.searchParam != ""){
+            if($scope.searchParam != ''){
                 dataToSend.flag = 1;
             }
             $scope.json = angular.toJson(dataToSend);
