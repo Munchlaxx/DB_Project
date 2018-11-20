@@ -1,40 +1,32 @@
 angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($scope, $mdDialog, $http) {
-    $scope.DatPractice = [
-        {
-            name: 'Event #1',
-            description: 'Practice Data #1',
-            comments: ["Comment #1", "Long Comment for checking the length of code.", "Comment #3"]
-        },
-        {
-            name: 'Event #2',
-            description: 'Practice Data #2',
-            comments: ["BLAH BLAH BLAH", "AHHHHHHHHHHHHHHH", "UGGGGGGGGGGGHHHHHHHHHHHHH"]
-        },
-        {
-            name: 'Event #3',
-            description: 'Practice Data #3',
-            comments: ["AAAAAAAAAAAAAAAAAAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CCCCCCCCCCCCCCCCCCCC"]
-        },
-    ];
+
     $scope.pulledEvent = {};
-    $scope.showComments = false;
     $scope.newComment = {};
     $scope.newComment.userID = 13;
     $scope.newComment.eventID = 1;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
-    $scope.editCommentForm = false;
     $scope.commentToEdit = {};
     $scope.editedComment = {};
+    $scope.user = {};
     //view toggles
     $scope.createEventToggle = false;
     $scope.createRSOToggle = false;
     $scope.showEventSearchResults = false;
     $scope.showRSOSearchResults = false;
     $scope.viewEventToggle = false;
+    $scope.editCommentForm = false;
+    $scope.showComments = false;
     //userInfo - holds user data from sign in
     $scope.userInfo;
+    $scope.getUserInfo = function(){
+        $http.post('userInfo').then(function(data){
+            $scope.user = angular.fromJson(data.data[0]);
+            console.log($scope.user);
+        });
+    }
+    $scope.getUserInfo();
     //creating new event
     $scope.event = {};
     $scope.event.eventID;
