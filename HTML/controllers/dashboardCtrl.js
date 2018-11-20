@@ -13,7 +13,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.pulledEvent = {};    //holds event to open in detailed view
     $scope.newComment = {};
     $scope.newComment.userID;
-    $scope.newComment.eventID = 1;
+    $scope.newComment.eventID = $scope.event.eventID;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
