@@ -10,6 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
     <script src = "controllers/dashboardCtrl.js"></script>
+    <script src="http://maps.google.cn/maps/api/js?key=AIzaSyAgO8-05zeVpqA0pYge-hpz3yAm-jVr1RE&callback=initMap" async defer></script>
+
 </head>
 <body class="dashboard">
 
@@ -57,7 +59,7 @@
         <div id="default" ng-show="!createEventToggle && !createRSOToggle && !showEventSearchResults && !showRSOSearchResults && !viewEventToggle">
           <font color="black">Welcome! Please select an option above.</font>
         </div>
-        <div id="eventSearchResults"  ng-show="!createEventToggle && !createRSOToggle && showEventSearchResults">
+        <div id="eventSearchResults"  ng-click="viewDivToggle(0)" ng-show="showEventSearchResults">
         <table>
             <tr>
                 <th>Name</th>
@@ -84,7 +86,7 @@
         </table>
     </div>
 
-    <div id="RSOSearchResults"  ng-show="!createEventToggle && !createRSOToggle && showRSOSearchResults">
+    <div id="RSOSearchResults"  ng-click="viewDivToggle(1)" ng-show="showRSOSearchResults">
             <table>
                 <tr>
                     <th>Name</th>
@@ -104,7 +106,7 @@
         </div>
 
 
-    <div id="createEvent" ng-show="createEventToggle">
+    <div id="createEvent" ng-click="viewDivToggle(2)" ng-show="createEventToggle">
         <form name="form.createEvent">
             <md-input-container>
                 <label>Name:</label>
@@ -139,11 +141,17 @@
                 <input type="text" ng-model="event.description">
             </md-input-container>
             <br>
-            <md-button style="color:green" ng-click="createEvent()">Create</md-button>
-
+            <md-button style="color:green" ng-click="createEvent()" >Create</md-button>
         </form>
+        <!--special place just for mappy-->
+        <div id="map">
+            {{$scope.map}}
+        </div>
+        <!-- inserting map things maybe -->
+        
+        <!-- mappy's special place end -->
     </div>
-    <div name="createRSO" ng-show="createRSOToggle">
+    <div name="createRSO" ng-click="viewDivToggle(3)" ng-show="createRSOToggle">
         <br>
         <h2 style="color:black;text-align:center">Create RSO</h2>
         <form name="form.createRSO">
@@ -157,15 +165,31 @@
                 <input type="text" ng-model="rso.universityID">
             </md-input-container>
             <br>
-            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button ng-click="viewDivToggle(900)">Cancel</md-button>
             <md-button ng-click="createRSO()">Create</md-button>
         </form>
     </div>
 
-    <div id="viewEvent" ng-show="viewEventToggle">
+    <div id="viewEvent" ng-click="viewDivToggle(4)" ng-show="viewEventToggle">
         <div id="info">
            <h4>Name: {{pulledEvent.name}}</h4>
            <h3>Description: {{pulledEvent.description}}</h3>
+           <!--special place just for mappy-->
+           <div id="map"></div>
+           <!-- inserting map things maybe -->
+           <script>
+               var map;
+               var ucfCampusCenter = {lat: 28.6024274, lng: -81.2000599};
+               function initMap() {
+                   map = new google.maps.Map(document.getElementById('map'),{
+                       center: ucfCampusCenter,
+                   zoom: 12 
+                   }); //ucf center
+                   var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
+                   //var geocoder = new google.maps.Geocoder();
+               }
+           </script>
+           <!-- mappy's special place end -->
         </div>
            <div id="comments">
                <div id="newComment">

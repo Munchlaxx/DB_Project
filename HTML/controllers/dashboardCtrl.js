@@ -8,6 +8,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.editCommentForm = false;
     $scope.showComments = false;
     //
+    $scope.map = {};
     $scope.pulledEvent = {};    //holds event to open in detailed view
     $scope.newComment = {};
     $scope.newComment.userID;
@@ -336,6 +337,23 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
      }
     }
 
+    $scope.mapDestroy = function() {
+        $scope.map = {};
+    }
+
+    $scope.mapCreate = function() {
+        $scope.map;
+        var ucfCampusCenter = {lat: 28.6024274, lng: -81.2000599};
+        function initMap() {
+            $scope.map = new google.maps.Map(document.getElementById('map'),{
+                center: ucfCampusCenter,
+            zoom: 12 
+            }); //ucf center
+            var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
+            //var geocoder = new google.maps.Geocoder();
+        }
+    }
+
     $scope.viewDivToggle = function(key){
         if(key == 0){
             //show event search results
@@ -346,6 +364,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.viewEventToggle = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
+            $scope.mapDestroy();
         } else if(key == 1){
             //show rso search results
             $scope.createEventToggle = false;
@@ -355,6 +374,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.viewEventToggle = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
+            $scope.mapDestroy();
         } else if(key == 2){
             //show create event form
             $scope.createEventToggle = true;
@@ -364,6 +384,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.viewEventToggle = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
+            $scope.mapCreate();
         } else if(key == 3){
             //show  create RSO form
             $scope.createEventToggle = false;
@@ -373,6 +394,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.viewEventToggle = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
+            $scope.mapDestroy();
         } else if(key == 4){
             //show view event
             $scope.createEventToggle = false;
@@ -382,6 +404,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.viewEventToggle = true;
             $scope.editCommentForm = false;
             $scope.showComments = false;
+            $scope.mapCreate();
         } else {
             $scope.createEventToggle = false;
             $scope.createRSOToggle = false;
@@ -390,6 +413,9 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.viewEventToggle = false;
             $scope.editCommentForm = false;
             $scope.showComments = false;
+            $scope.mapDestroy();
         }
     }
+    //on page load:
+    $scope.viewDivToggle(999);
 });
