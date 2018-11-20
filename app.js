@@ -425,11 +425,12 @@ app.post('/createEvent', function(req,res){
 		} else { 
 			
 			
-			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, startTime, endTime, lat, lng, name, description) VALUES(';
-			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
+			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, universityID startTime, endTime, lat, lng, name, description) VALUES(';
+			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
+					console.log(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')")
 					res.status(400).send('Query Fail');
                 } 
                 else {
