@@ -68,7 +68,8 @@
                 <th>Description</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-                <th>Location</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
                 <th>Category</th>
                 <th>POC</th>
                 <th>Attend</th>
@@ -79,7 +80,8 @@
                 <td>{{n.description}}</td>
                 <td>{{n.startTime |date:"MM/dd/yyyy 'at' h:mma"}}</td>
                 <td>{{n.endTime |date:"MM/dd/yyyy 'at' h:mma"}}</td>
-                <td>{{n.location}}</td>
+                <td>{{n.lat}}</td>
+                <td>{{n.lng}}</td>
                 <td>{{n.cat}}</td>
                 <td>{{n.userID}}</td>
                 <td><md-button ng-click="attendEvent(n)">Attend</md-button></td>
