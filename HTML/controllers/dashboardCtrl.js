@@ -36,6 +36,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.event.endTime = '';
     $scope.event.description = '';
     $scope.event.cat = 0;
+    $scope.event.approved;
     $scope.event.latitude = 0;
     $scope.event.longitude = 0;
     $scope.event.userID = 0;
@@ -46,21 +47,19 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.rso.universityID = 1;
     $scope.rso.active = 0;
     $scope.rso.userID = 2;
-    $scope.addMember = '';
-    $scope.foundingMembers = [];
     //searching
     $scope.searchResults = [];
     $scope.response = '';
     $scope.searchParam = '';
     $scope.searchCat = '';
-    $scope.userData = {};
+/*     $scope.userData = {};
     $scope.userData.userID = '11223';
-    $scope.userData.admin = true;
+    $scope.userData.admin = true; */
 
-    $scope.rsoArrayPush = function(){
+/*     $scope.rsoArrayPush = function(){
         $scope.foundingMembers.push($scope.addMember);
         $scope.addMember = '';
-    }
+    } */
     $scope.search = function(){
         //package for db
         $scope.createEventToggle = false;
@@ -250,8 +249,6 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     }
     $scope.createEvent = function(){
         //gather info and send to db
-        $scope.createEventToggle = true;
-        $scope.createRSOToggle = false;
         $scope.event.userID = $scope.user.userID;
         $scope.event.universityID = $scope.user.universityID;
         if($scope.event.cat == 0 || $scope.event.cat == 1){
@@ -268,8 +265,6 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
     $scope.createRSO = function(){
         //form with 5 users
-        $scope.createRSOToggle = true;
-        $scope.createEventToggle = false;
         if($scope.rso.name != ''){
             $scope.json = angular.toJson($scope.rso);
             console.log($scope.json);
@@ -286,22 +281,6 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         }
     }
 
-    $scope.cancel = function(){
-        $scope.createEventToggle = false;
-        $scope.createRSOToggle = false;
-    }
-
-    $scope.goto = function(key){
-        if(key == 'search'){
-            window.location.href="searchEngine.html"
-        }
-        if(key == 'myEvents'){
-            window.location.href="myEvents.html"
-        }
-        if(key == 'myRSOs'){
-            window.location.href="myRSOs.html"
-        }
-    }
     $scope.logout = function(){
         //clear out user info 
         window.location.href="signIn.html"
