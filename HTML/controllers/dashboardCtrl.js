@@ -1,15 +1,15 @@
 angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($scope, $mdDialog, $http) {
 
-    $scope.pulledEvent = {};
+    $scope.pulledEvent = {};    //holds event to open in detailed view
     $scope.newComment = {};
-    $scope.newComment.userID = 13;
+    $scope.newComment.userID;
     $scope.newComment.eventID = 1;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
     $scope.commentToEdit = {};
     $scope.editedComment = {};
-    $scope.user = {};
+    $scope.user = {};   //holds user data while session is on
     //view toggles
     $scope.createEventToggle = false;
     $scope.createRSOToggle = false;
@@ -163,6 +163,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         });
     }
     $scope.saveComment = function(){
+        $scope.newComment.userID = $scope.user.userID;
         $scope.json = angular.toJson($scope.newComment);
         console.log($scope.json);
         $http.post('/createComment', $scope.json).then(function(){
@@ -250,6 +251,13 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         //gather info and send to db
         $scope.createEventToggle = true;
         $scope.createRSOToggle = false;
+        $scope.event.userID = $scope.user.userID;
+        $scope.event.universityID = $scope.user.universityID;
+        if($scope.event.cat == 0 || $scope.event.cat == 1){
+            $scope.approved = 0;
+        } else{
+            $scope.approved = 1;
+        }
         if($scope.event.name != ''){
             $scope.json = angular.toJson($scope.event);
             $http.post('/createEvent', $scope.json);
