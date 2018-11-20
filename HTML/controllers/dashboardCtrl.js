@@ -138,8 +138,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.event.description = '';
     $scope.event.cat = 0;
     $scope.event.approved;
-    $scope.event.latitude = 0;
-    $scope.event.longitude = 0;
+    $scope.event.lat = 0;
+    $scope.event.lng = 0;
     $scope.event.userID = 0;
     //creating new RSO
     $scope.rso = {};
