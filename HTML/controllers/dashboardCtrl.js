@@ -370,7 +370,12 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         if($scope.event.name != ''){
             $scope.json = angular.toJson($scope.event);
             console.log($scope.json);
-            $http.post('/createEvent', $scope.json);
+            $http.post('/createEvent', $scope.json).then(function(){
+                alert("Event Created");
+            },
+            function(){
+                alert("Event Creation Failed");
+            });
         }
     }
 
