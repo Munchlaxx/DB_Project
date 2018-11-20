@@ -205,7 +205,7 @@
                        <label>Rating (1-5): </label>
                        <input ng-model="newComment.rating">
                    </md-input-container>
-                   <md-button ng-click="saveComment()">Save</md-button>
+                   <md-button ng-click="saveComment(pulledEvent)">Save</md-button>
                </form>
             </div>
             <div id="editComment" ng-show="editCommentForm">
@@ -219,7 +219,7 @@
                             <label>Rating (1-5): </label>
                             <input ng-model="commentToEdit.rating">
                         </md-input-container>
-                        <md-button ng-click="updateComment()">Save Changes</md-button>
+                        <md-button ng-click="updateComment(pulledEvent)">Save Changes</md-button>
                     </form>
                  </div>
                <div style="float:center" style="overflow-y: scroll">

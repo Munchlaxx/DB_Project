@@ -13,7 +13,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.pulledEvent = {};    //holds event to open in detailed view
     $scope.newComment = {};
     $scope.newComment.userID;
-    $scope.newComment.eventID = $scope.event.eventID;
+    $scope.newComment.eventID;
     $scope.newComment.commentText = '';
     $scope.newComment.rating = '';
     $scope.eventSelected = {};
@@ -262,8 +262,9 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.showComments = true;
         });
     }
-    $scope.saveComment = function(){
+    $scope.saveComment = function(event){
         $scope.newComment.userID = $scope.user.userID;
+        $scope.newComment.eventID = event.eventID;
         $scope.json = angular.toJson($scope.newComment);
         console.log($scope.json);
         $http.post('/createComment', $scope.json).then(function(){
@@ -285,13 +286,13 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         $scope.editCommentForm = true;
 
     }
-    $scope.updateComment = function(){
+    $scope.updateComment = function(event){
         $scope.json = angular.toJson($scope.commentToEdit);
         console.log($scope.json);
         $http.post('/updateComment', $scope.json).then(function(){
             console.log("success")
             var dataToSend = {};
-            dataToSend.eventID = $scope.eventSelected.eventID;
+            dataToSend.eventID = event.eventID
             $scope.json = angular.toJson(dataToSend);
             $http.post('/getComment', $scope.json).then(function(data){
                 console.log(data);
