@@ -445,6 +445,40 @@ app.post('/searchRSO', function(req,res){
 	});
 });
 
+// Join RSO
+app.post('/joinRSO', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlCreateEvent = 'INSERT INTO RSO_MEMBERS (rsoID, userID) VALUES(';
+			tempCont.query(sqlCreateEvent + req.body.rsoID + "," + userID + "')", function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
 
 //Create Comment
 app.post('/createComment', function(req,res){
