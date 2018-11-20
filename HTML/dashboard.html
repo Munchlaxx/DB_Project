@@ -97,7 +97,7 @@
                     <th>Status</th>
                     <th>Join</th>
                 </tr>
-                <tr ng-repeat="n in searchResults.data">
+                <tr ng-repeat="n in searchResults.data" ng-show="n.universityID == user.universityID">
                     <td>{{n.name}}</td>
                     <td>{{n.universityID}}</td>
                     <td>{{n.userID}}</td>
