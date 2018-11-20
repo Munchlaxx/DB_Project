@@ -334,8 +334,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         console.log(rso);
         $scope.dataToSend = {};
         $scope.dataToSend.rsoID = rso.rsoID;
-        $scope.dataToSend.userID; //code to get userID here
-        $scope.json = angular.toJson(dataToSend);
+        $scope.json = angular.toJson($scope.dataToSend);
         $http.post('/joinRSO', $scope.json).then(function(data){
             alert("Successfully Joined RSO!");
         },
