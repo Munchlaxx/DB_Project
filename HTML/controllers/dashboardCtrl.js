@@ -332,9 +332,9 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     }
     $scope.joinRSO = function(rso){
         console.log(rso);
-        $scope.dataToSend = {};
-        $scope.dataToSend.rsoID = rso.rsoID;
-        $scope.json = angular.toJson($scope.dataToSend);
+        var dataToSend = {};
+        dataToSend.rsoID = rso.rsoID;
+        $scope.json = angular.toJson(dataToSend);
         $http.post('/joinRSO', $scope.json).then(function(data){
             alert("Successfully Joined RSO!");
         },
