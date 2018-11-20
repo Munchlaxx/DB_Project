@@ -43,6 +43,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.viewDivToggle = function(key){
         if(key == 0){
             //show event search results
+            $scope.showMeEvent = false;
             $scope.createEventToggle = false;
             $scope.createRSOToggle = false;
             $scope.showEventSearchResults = true;
@@ -53,6 +54,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
             $scope.defaultToggle = false;
             $scope.mapDestroy();
         } else if(key == 1){
+            $scope.showMeEvent = false;
+
             //show rso search results
             $scope.createEventToggle = false;
             $scope.createRSOToggle = false;
@@ -65,6 +68,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
             $scope.mapDestroy();
         } else if(key == 2){
+            $scope.showMeEvent = false;
+
             //show create event form
             $scope.createEventToggle = true;
             $scope.createRSOToggle = false;
@@ -77,6 +82,8 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
 
             $scope.mapCreate();
         } else if(key == 3){
+            $scope.showMeEvent = false;
+
             //show  create RSO form
             $scope.createEventToggle = false;
             $scope.createRSOToggle = true;
@@ -292,7 +299,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         $http.post('/updateComment', $scope.json).then(function(){
             console.log("success")
             var dataToSend = {};
-            dataToSend.eventID = event.eventID
+            dataToSend.eventID = $scope.eventSelected.eventID;
             $scope.json = angular.toJson(dataToSend);
             $http.post('/getComment', $scope.json).then(function(data){
                 console.log(data);
