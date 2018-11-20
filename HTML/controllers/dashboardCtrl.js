@@ -338,8 +338,9 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         console.log(event);
         $scope.dataToSend = {};
         $scope.dataToSend.eventID = event.eventID;
-        $scope.dataToSend.userID = $scope.userInfo.userID; 
+        console.log(event);
         $scope.json = angular.toJson($scope.dataToSend);
+        console.log($scope.json);
         $http.post('/attendEvent', $scope.json).then(function(data){
             alert("Successfully Attending Event!");
         },
