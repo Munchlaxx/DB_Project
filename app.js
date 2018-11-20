@@ -425,7 +425,7 @@ app.post('/createEvent', function(req,res){
 		} else { 
 			
 			
-			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, universityID startTime, endTime, lat, lng, name, description) VALUES(';
+			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, universityID, startTime, endTime, lat, lng, name, description) VALUES(';
 			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
 					
 				// Check if query works
