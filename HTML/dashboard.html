@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html ng-app="dbApp" ng-controller="DashboardCtrl">
+
+        <script>
+                var map;
+                var ucfCampusCenter = {lat: 28.6024274, lng: -81.2000599};
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'),{
+                        center: ucfCampusCenter,
+                    zoom: 12
+                    }); //ucf center
+                    var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
+                    //var geocoder = new google.maps.Geocoder();
+                }
+            </script>
+
 <head>
     <title>Dashboard</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -179,20 +193,9 @@
            <h4>Name: {{pulledEvent.name}}</h4>
            <h3>Description: {{pulledEvent.description}}</h3>
            <!--special place just for mappy-->
-           <div id="map"></div>
+           <!-- <div id="map"></div> -->
            <!-- inserting map things maybe -->
-           <script>
-               var map;
-               var ucfCampusCenter = {lat: 28.6024274, lng: -81.2000599};
-               function initMap() {
-                   map = new google.maps.Map(document.getElementById('map'),{
-                       center: ucfCampusCenter,
-                   zoom: 12
-                   }); //ucf center
-                   var marker = new google.maps.Marker({position: ucfCampusCenter, map: map});
-                   //var geocoder = new google.maps.Geocoder();
-               }
-           </script>
+           
            <!-- mappy's special place end -->
         </div>
            <div id="comments">
