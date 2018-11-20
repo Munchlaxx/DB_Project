@@ -193,13 +193,11 @@ app.post('/searchEvents', function(req,res){
 	else{
 		// Create connection to database
 		db.getConnection(function(err, tempCont){
-			
 		// Error if connection is not established
 		if(err) {
 			res.status(400).send('Connection fail');
 				
 		} else { 
-			
 			// If Public Event
 			if (req.body.cat == 0){
 				if(req.body.flag == 1){
@@ -234,9 +232,8 @@ app.post('/searchEvents', function(req,res){
 
 			// If Private Event
 			else if (req.body.cat == 1){
-				
 				if(req.body.flag == 1){
-					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = ? AND universityID = ? AND name LIKE '%" + req.body.name + "%'",[req.user.cat, req.body.approved, req.body.universityID], function(err, result) {
+					tempCont.query("SELECT * FROM ALL_EVENTS WHERE cat = ? AND approved = 1 AND universityID = ? AND name LIKE '%" + req.body.name + "%'",[req.user.cat, req.body.universityID], function(err, result) {
 						
 					// Check if query works
 					if (err) {
@@ -258,6 +255,8 @@ app.post('/searchEvents', function(req,res){
 						res.status(400).send('Query Fail');
 					} 
 					else {
+						console.log(req.body.cat);
+						console.log(req.body.universityID);
 						res.status(200).send(result)		
 					}
 				
@@ -464,7 +463,7 @@ app.post('/attendEvent', function(req,res){
 			
 			
 			const sqlCreateEvent = 'INSERT INTO ATTENDING (userID, eventID) VALUES(';
-			tempCont.query(sqlCreateEvent + userID + "," + req.body.eventID + "')", function(err, result) {
+			tempCont.query(sqlCreateEvent + userID + "," + req.body.eventID + ")", function(err, result) {
 					
 				// Check if query works
 				if (err) {
