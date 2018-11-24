@@ -440,9 +440,10 @@ app.post('/createEvent', function(req,res){
 				
 				});
 			}
-			
-			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, universityID, startTime, endTime, lat, lng, name, description) VALUES(';
-			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
+
+			else{
+				const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, universityID, startTime, endTime, lat, lng, name, description) VALUES(';
+				tempCont.query(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
 					
 				// Check if query works
 				if (err) {
@@ -457,8 +458,13 @@ app.post('/createEvent', function(req,res){
 				tempCont.release();
 			
 			});
+			}
 				
 		}
+
+		// End connection
+		tempCont.release();
+			
 
 	});
 });
