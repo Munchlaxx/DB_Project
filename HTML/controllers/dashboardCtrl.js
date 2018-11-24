@@ -400,20 +400,26 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         $scope.viewDivToggle(3);
         if($scope.rso.name != ''){
             $scope.json = angular.toJson($scope.rso);
-            console.log($scope.json);
             var dataToSend = {};
             dataToSend.userID = $scope.rso.userID;
             dataToSend.name = $scope.rso.name;
             dataToSend.universityID = $scope.rso.universityID;
             $scope.json = angular.toJson(dataToSend);
             $http.post('/createRSO', $scope.json).then(function(data){
-                console.log(data);
                 $scope.pulledComments = angular.fromJson(data);
                 $scope.showComments = true;
                 alert("RSO Created.");
-                $scope.json = angular.toJson($scope.rso.name);
+                var temp = {};
+                temp.name = $scope.rso.name;
+                $scope.json = angular.toJson(temp);
                 $http.post('searchRSO', $scope.json).then(function(data){
-                    $http.post('joinRSO', data).then(function(){
+                    var tmp = {};
+                    var id = angular.fromJson(data.data[0]);
+                    tmp.rsoID = id.rsoID;
+                    console.log(tmp);
+                    $scope.jsonNew = angular.toJson(tmp);
+                    console.log($scope.jsonNew);
+                    $http.post('joinRSO', $scope.jsonNew).then(function(){
                         alert("Added admin to RSO");
                     }, function(){
                         alert("Error adding admin to RSO");
