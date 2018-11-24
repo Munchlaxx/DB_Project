@@ -368,12 +368,25 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
         } else{
             $scope.approved = 1;
         }
-        if($scope.event.name != ''){
+        if($scope.event.name != '' && $scope.event.cat != 2){
             $scope.json = angular.toJson($scope.event);
             console.log($scope.json);
             $http.post('/checkEvent', $scope.json).then(function(){
                 $http.post('/createEvent', $scope.json).then(function(){
                     alert("Event Created");
+                });
+            },
+            function(){
+                alert("Event Creation Failed");
+            });
+        } else if ($scope.event.name != '' && $scope.event.cat == 2){
+            $scope.json = angular.toJson($scope.event);
+            console.log($scope.json);
+            $http.post('/checkRSO', $scope.json).then(function(){
+                $http.post('/checkEvent', $scope.json).then(function(){
+                $http.post('/createEvent', $scope.json).then(function(){
+                    alert("Event Created");
+                });
                 });
             },
             function(){
@@ -397,10 +410,20 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 console.log(data);
                 $scope.pulledComments = angular.fromJson(data);
                 $scope.showComments = true;
-
+                alert("RSO Created.");
+                $scope.json = angular.toJson($scope.rso.name);
+                $http.post('searchRSO', $scope.json).then(function(data){
+                    $http.post('joinRSO', data).then(function(){
+                        alert("Added admin to RSO");
+                    }, function(){
+                        alert("Error adding admin to RSO");
+                    });
             });
-        }
+        }, function(){
+                alert("RSO Creation Failed.");
+            });
     }
+}
 
     $scope.logout = function(){
         //clear out user info 
