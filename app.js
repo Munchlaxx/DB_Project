@@ -424,6 +424,22 @@ app.post('/createEvent', function(req,res){
 				
 		} else { 
 			
+			if(req.body.cat == 2){
+				const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (rsoID, userID, cat, universityID, startTime, endTime, lat, lng, name, description) VALUES(';
+				tempCont.query(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
+						
+				// Check if query works
+				if (err) {
+					console.log(sqlCreateEvent + req.body.rsoID + "," + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')")
+					res.status(400).send('Query Fail');
+				} 
+				else {
+					res.status(200).send(result);		
+				}
+
+				
+				});
+			}
 			
 			const sqlCreateEvent = 'INSERT INTO ALL_EVENTS (userID, cat, universityID, startTime, endTime, lat, lng, name, description) VALUES(';
 			tempCont.query(sqlCreateEvent + userID + "," + req.body.cat +  "," + req.body.universityID + ", '" + req.body.startTime + "', '" + req.body.endTime + "'," + req.body.lat + "," + req.body.lng + ", '" + req.body.name + "', '" + req.body.description + "')", function(err, result) {
@@ -575,6 +591,46 @@ app.post('/searchRSO', function(req,res){
                 } 
                 else {
 					res.status(200).send(result);		
+				}
+					
+				// End connection
+				tempCont.release();
+			
+			});
+				
+		}
+
+	});
+});
+
+// Check RSO Owner
+app.post('/checkRSO', function(req,res){
+
+    // Create connection to database
+	db.getConnection(function(err, tempCont){
+			
+		// Error if connection is not established
+		if(err) {
+			res.status(400).send('Connection fail');
+				
+		} else { 
+			
+			
+			const sqlSearchEvent = 'SELECT * FROM RSO WHERE rsoID = ?, userID = ?';
+			tempCont.query(sqlSearchEvent,[req.body.rsoID, req.body.userID], function(err, result) {
+					
+				// Check if query works
+				if (err) {
+					res.status(400).send('Query Fail');
+                } 
+                else {
+					if(result.length == 0){
+						res.status(400).send("TUser is not the Owner");
+					}
+					
+					else{
+						res.status(200).send("User is the Owner");
+					}
 				}
 					
 				// End connection
