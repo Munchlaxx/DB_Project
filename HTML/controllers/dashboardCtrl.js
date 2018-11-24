@@ -141,6 +141,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
     $scope.event.lat = 0;
     $scope.event.lng = 0;
     $scope.event.userID = 0;
+    $scope.event.rsoID = 0;
     //creating new RSO
     $scope.rso = {};
     $scope.rso.rsoID;
@@ -396,6 +397,7 @@ angular.module('dbApp', ['ngMaterial']).controller('DashboardCtrl', function($sc
                 console.log(data);
                 $scope.pulledComments = angular.fromJson(data);
                 $scope.showComments = true;
+
             });
         }
     }
