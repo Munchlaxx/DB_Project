@@ -5,7 +5,7 @@ angular.module('dbApp', ['ngMaterial', ]).controller('signInCtrl', function($sco
     $scope.userData.password = '';
 
     //sign up data
-    $scope.universityList = [{name: 'UCF', code: '1'}, {name: 'Valencia', code: '2'}]; //to be replaced later when DB call works
+    $scope.universityList = [{name: 'UCF', code: '3'}, {name: 'Valencia', code: '2'}]; //to be replaced later when DB call works
     $scope.securityQList = ["What is your favorite animal?",
                             "What elementary school did you attend?",
                             "What is your least favorite food?"

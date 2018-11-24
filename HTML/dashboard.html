@@ -154,6 +154,10 @@
                         <md-option value="2">RSO Event</md-option>
                     </md-select>
             </md-input-container>
+            <md-input-container ng-show="event.cat == 2">
+                <label>rsoID:</label>
+                <input ng-model="event.rsoID">
+            </md-input-container>
             <md-input-container>
                 <label>Description:</label>
                 <input type="text" ng-model="event.description">
